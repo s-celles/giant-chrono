@@ -1,0 +1,27 @@
+# Allowlist pattern: ignore everything by default, then explicitly allow
+# tracked files. New files must be added here deliberately.
+*
+!*/
+
+# Project root files
+!.gitignore
+!package.json
+!bun.lock
+!tsconfig.json
+!index.html
+!justfile
+!LICENSE
+!README.md
+!CHANGELOG.md
+
+# Source, tests, tooling, docs
+!src/**
+!tests/**
+!scripts/**
+!public/**
+!docs/**
+!.github/**
+
+# Never track build outputs or dependencies (re-ignored after the allows)
+node_modules/
+dist/

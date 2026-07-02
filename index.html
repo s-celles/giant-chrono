@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="GiantChrono — offline stopwatch and clock with giant digits" />
+    <meta name="theme-color" content="#000000" />
+    <title>GiantChrono</title>
+    <!-- Manifest and icon links are injected by scripts/build.ts: those files
+         are generated at build time and must not go through the bundler. -->
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main id="app">
+      <header id="topbar">
+        <button id="btn-view" type="button" aria-label="Switch between stopwatch and clock">Clock</button>
+        <button id="btn-sound" type="button" aria-label="Toggle sound" aria-pressed="true">🔊</button>
+        <button id="btn-lock" type="button" aria-label="Lock the screen controls">🔓</button>
+        <button id="btn-settings" type="button" aria-label="Open settings">⚙</button>
+      </header>
+
+      <div id="display" role="presentation">
+        <section id="view-stopwatch" aria-label="Stopwatch">
+          <div id="single-stopwatch">
+            <div class="digits" id="sw-digits" role="timer" aria-live="off">00:00.0</div>
+            <ol id="laps" aria-label="Laps" reversed></ol>
+          </div>
+          <div id="multi-stopwatches" hidden></div>
+          <div class="digits" id="sw-fraction" aria-hidden="true" hidden>.0</div>
+        </section>
+
+        <section id="view-clock" aria-label="Clock" hidden>
+          <div class="digits-row">
+            <div class="digits" id="clock-digits">--:--</div>
+            <span id="meridiem" hidden></span>
+          </div>
+        </section>
+
+        <div id="countdown-overlay" hidden>
+          <div class="digits" id="countdown-digits" aria-live="assertive">3</div>
+          <p id="countdown-hint">Starting… tap Reset to cancel</p>
+        </div>
+
+        <div id="lock-indicator" hidden>
+          <span>🔒 Locked</span>
+          <small>Hold anywhere for 1 s to unlock</small>
+        </div>
+      </div>
+
+      <footer id="controls">
+        <button id="btn-reset" type="button" aria-label="Reset stopwatch and clear laps">Reset</button>
+        <button id="btn-startpause" type="button" class="primary" aria-label="Start or pause the stopwatch">Start</button>
+        <button id="btn-lap" type="button" aria-label="Record a lap">Lap</button>
+      </footer>
+
+      <div id="update-toast" hidden>
+        <span>Update available</span>
+        <button id="btn-update" type="button">Reload</button>
+      </div>
+
+      <dialog id="settings-dialog" aria-label="Settings">
+        <form method="dialog" id="settings-form">
+          <h2>Settings</h2>
+
+          <fieldset>
+            <legend>Display</legend>
+            <label>Digit color <input type="color" name="digitColor" /></label>
+            <label>Background <input type="color" name="bgColor" /></label>
+            <label>Font
+              <select name="font">
+                <option value="system-mono">Monospace</option>
+                <option value="system-sans">Sans-serif</option>
+                <option value="system-serif">Serif</option>
+              </select>
+            </label>
+            <label>Layout
+              <select name="layout">
+                <option value="auto">Automatic (stacked in portrait)</option>
+                <option value="inline">Single line</option>
+                <option value="stacked">Stacked</option>
+              </select>
+            </label>
+            <label>Size <input type="range" name="sizePct" min="20" max="100" step="5" /></label>
+            <label>Letter spacing <input type="range" name="letterSpacing" min="0" max="20" step="1" /></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Stopwatch</legend>
+            <label>Hours
+              <select name="stopwatchHours">
+                <option value="auto">Automatic</option>
+                <option value="always">Always</option>
+                <option value="never">Never</option>
+              </select>
+            </label>
+            <label>Precision
+              <select name="fractionDigits">
+                <option value="0">Seconds</option>
+                <option value="1">Tenths</option>
+                <option value="2">Hundredths</option>
+              </select>
+            </label>
+            <label>Start delay (s) <input type="number" name="delaySeconds" min="0" max="3600" step="1" /></label>
+            <label><input type="checkbox" name="multiEnabled" /> Multiple stopwatches</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Clock</legend>
+            <label>Time format
+              <select name="hourMode">
+                <option value="auto">Automatic (locale)</option>
+                <option value="12h">12-hour</option>
+                <option value="24h">24-hour</option>
+              </select>
+            </label>
+            <label><input type="checkbox" name="clockShowSeconds" /> Show seconds</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Behavior</legend>
+            <label>Tap on display
+              <select name="tapCommand">
+                <option value="lap">Lap</option>
+                <option value="startpause">Start / Pause</option>
+                <option value="none">Disabled</option>
+              </select>
+            </label>
+            <label><input type="checkbox" name="soundEnabled" /> Sound</label>
+            <label><input type="checkbox" name="keepAwake" /> Keep screen awake</label>
+          </fieldset>
+
+          <menu>
+            <button id="btn-defaults" type="button">Restore defaults</button>
+            <button value="close" class="primary">Close</button>
+          </menu>
+        </form>
+      </dialog>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

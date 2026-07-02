@@ -1,0 +1,20 @@
+{
+  "name": "giant-chrono-pwa",
+  "version": "0.1.0",
+  "description": "GiantChrono — a fully local, offline-first PWA stopwatch and clock with giant digits",
+  "license": "MIT",
+  "author": "Sébastien Celles",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun ./index.html",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build": "bun run scripts/build.ts",
+    "preview": "bun run scripts/preview.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "typescript": "^6.0.3"
+  }
+}

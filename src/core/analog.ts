@@ -12,6 +12,16 @@ export interface HandAngles {
  * Hand angles for a time of day. `seconds` may be fractional to let the
  * second hand sweep smoothly between ticks.
  */
+export type SecondHandMode = "sweep" | "tick";
+
+/**
+ * Seconds value to feed the second hand (CLK-006): "sweep" keeps the
+ * fractional part for continuous motion, "tick" steps once per second.
+ */
+export function secondHandSeconds(seconds: number, mode: SecondHandMode): number {
+  return mode === "tick" ? Math.floor(seconds) : seconds;
+}
+
 export function handAngles(hours: number, minutes: number, seconds: number): HandAngles {
   const s = seconds;
   const m = minutes + s / 60;

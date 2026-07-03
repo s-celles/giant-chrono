@@ -2,11 +2,13 @@
 // settings (CLK-004): digit color for face, numbers and hands over the
 // app background.
 
-import { handAngles } from "./core/analog";
+import { handAngles, secondHandSeconds, type SecondHandMode } from "./core/analog";
 
 export interface AnalogTheme {
   digitColor: string;
   fontFamily: string;
+  /** Second hand motion: continuous sweep or per-second tick (CLK-006). */
+  secondHand: SecondHandMode;
 }
 
 function hand(
@@ -62,11 +64,11 @@ export function drawAnalogClock(canvas: HTMLCanvasElement, date: Date, theme: An
     ctx.fillText(String(num), Math.sin(ang) * cr * 0.74, -Math.cos(ang) * cr * 0.74);
   }
 
-  // Hands (fractional seconds give a smooth sweep)
+  // Hands: sweep keeps fractional seconds, tick steps once per second (CLK-006)
   const a = handAngles(
     date.getHours(),
     date.getMinutes(),
-    date.getSeconds() + date.getMilliseconds() / 1000,
+    secondHandSeconds(date.getSeconds() + date.getMilliseconds() / 1000, theme.secondHand),
   );
   hand(ctx, a.hour, cr * 0.5, cr * 0.05, theme.digitColor);
   hand(ctx, a.minute, cr * 0.72, cr * 0.035, theme.digitColor);

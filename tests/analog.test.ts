@@ -1,6 +1,6 @@
 // Requirements under test: CLK-005 (analog clock face)
 import { describe, expect, test } from "bun:test";
-import { handAngles } from "../src/core/analog";
+import { handAngles, secondHandSeconds } from "../src/core/analog";
 
 const PI = Math.PI;
 
@@ -38,5 +38,21 @@ describe("handAngles (CLK-005: analog hand positions)", () => {
 
   test("fractional seconds allow a smooth sweep", () => {
     expect(handAngles(0, 0, 0.5).second).toBeCloseTo(PI / 60);
+  });
+});
+
+describe("secondHandSeconds (CLK-006: sweep vs tick second hand)", () => {
+  test("sweep keeps fractional seconds for a continuous motion", () => {
+    expect(secondHandSeconds(30.7, "sweep")).toBeCloseTo(30.7);
+  });
+
+  test("tick truncates to whole elapsed seconds", () => {
+    expect(secondHandSeconds(30.7, "tick")).toBe(30);
+    expect(secondHandSeconds(59.999, "tick")).toBe(59);
+  });
+
+  test("whole seconds are identical in both modes", () => {
+    expect(secondHandSeconds(42, "sweep")).toBe(42);
+    expect(secondHandSeconds(42, "tick")).toBe(42);
   });
 });

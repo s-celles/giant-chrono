@@ -26,7 +26,7 @@ Set a **start delay** in seconds in Settings (0 = immediate, DLY-001). Starting 
 
 ## Clock (CLK) and 12 h / 24 h format (FMT)
 
-The clock view shows the local time in giant digits, updated continuously (CLK-001, CLK-002), with optional seconds (CLK-003) and the same theme as the stopwatch (CLK-004). A **Face** setting switches between the digital display and an **analog dial** — hour/minute/second hands, tick marks and numbers 1–12 drawn with the theme colors and font, sized to fill the screen (CLK-005). The time format is:
+The clock view shows the local time in giant digits, updated continuously (CLK-001, CLK-002), with optional seconds (CLK-003) and the same theme as the stopwatch (CLK-004). A **Face** setting switches between the digital display and an **analog dial** — hour/minute/second hands, tick marks and numbers 1–12 drawn with the theme colors and font, sized to fill the screen (CLK-005). A **Second hand** setting picks its motion: **tick** (one step per second, the default) or **sweep** (continuous) (CLK-006). The time format is:
 
 - **Automatic** — derived from your system locale (FMT-002)
 - **12-hour** — with an AM/PM indicator (FMT-003)

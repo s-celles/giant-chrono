@@ -1,6 +1,7 @@
 // User settings model with defensive parsing: any missing or invalid field
 // falls back to a readable default (DSP-008, PST-003).
 
+import type { SecondHandMode } from "./analog";
 import type { HoursMode } from "./format";
 
 export type HourMode = "auto" | "12h" | "24h";
@@ -30,6 +31,8 @@ export interface Settings {
   clockShowSeconds: boolean;
   /** Digital or analog clock face (CLK-005). */
   clockFace: ClockFace;
+  /** Analog second hand motion: continuous sweep or per-second tick (CLK-006). */
+  secondHand: SecondHandMode;
   /** 12/24 h choice; "auto" derives from the locale (FMT-001, FMT-002). */
   hourMode: HourMode;
   /** Delayed start in seconds, 0 = immediate (DLY-001). */
@@ -62,6 +65,7 @@ export const DEFAULT_SETTINGS: Settings = {
   fractionDigits: 1,
   clockShowSeconds: true,
   clockFace: "digital",
+  secondHand: "tick",
   hourMode: "auto",
   delaySeconds: 0,
   tapCommand: "lap",
@@ -117,6 +121,7 @@ export function parseSettings(raw: unknown): Settings {
         : d.fractionDigits,
     clockShowSeconds: bool(o.clockShowSeconds, d.clockShowSeconds),
     clockFace: oneOf(o.clockFace, ["digital", "analog"], d.clockFace),
+    secondHand: oneOf(o.secondHand, ["sweep", "tick"], d.secondHand),
     hourMode: oneOf(o.hourMode, ["auto", "12h", "24h"], d.hourMode),
     delaySeconds: intInRange(o.delaySeconds, 0, 3600, d.delaySeconds),
     tapCommand: oneOf(o.tapCommand, ["none", "lap", "startpause"], d.tapCommand),

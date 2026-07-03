@@ -61,6 +61,12 @@ describe("parseSettings (defensive validation)", () => {
     expect(parseSettings({ clockFace: "sundial" }).clockFace).toBe(DEFAULT_SETTINGS.clockFace);
   });
 
+  test("CLK-006: secondHand accepts sweep and tick only", () => {
+    expect(parseSettings({ secondHand: "sweep" }).secondHand).toBe("sweep");
+    expect(parseSettings({ secondHand: "tick" }).secondHand).toBe("tick");
+    expect(parseSettings({ secondHand: "warp" }).secondHand).toBe(DEFAULT_SETTINGS.secondHand);
+  });
+
   test("DSP-009: layout accepts auto, inline and stacked only", () => {
     expect(parseSettings({ layout: "auto" }).layout).toBe("auto");
     expect(parseSettings({ layout: "inline" }).layout).toBe("inline");
@@ -83,6 +89,7 @@ describe("parseSettings (defensive validation)", () => {
     expect(DEFAULT_SETTINGS.soundEnabled).toBe(true);
     expect(DEFAULT_SETTINGS.tapCommand).toBe("lap");
     expect(DEFAULT_SETTINGS.layout).toBe("auto");
+    expect(DEFAULT_SETTINGS.secondHand).toBe("tick");
   });
 });
 

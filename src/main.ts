@@ -410,6 +410,7 @@ function render(): void {
     drawAnalogClock(clockAnalog, new Date(now), {
       digitColor: settings.digitColor,
       fontFamily: font,
+      secondHand: settings.secondHand,
     });
   } else {
     // Clock view (CLK-001, CLK-002): rAF far exceeds the 1 Hz minimum.
@@ -581,6 +582,7 @@ function populateSettingsForm(): void {
   field("hourMode").value = settings.hourMode;
   field("tapCommand").value = settings.tapCommand;
   field("clockFace").value = settings.clockFace;
+  field("secondHand").value = settings.secondHand;
   (field("clockShowSeconds") as HTMLInputElement).checked = settings.clockShowSeconds;
   (field("soundEnabled") as HTMLInputElement).checked = settings.soundEnabled;
   (field("multiEnabled") as HTMLInputElement).checked = settings.multiEnabled;
@@ -609,6 +611,7 @@ function readSettingsForm(): void {
     fractionDigits: Number(field("fractionDigits").value) as Settings["fractionDigits"],
     clockShowSeconds: (field("clockShowSeconds") as HTMLInputElement).checked,
     clockFace: field("clockFace").value as Settings["clockFace"],
+    secondHand: field("secondHand").value as Settings["secondHand"],
     hourMode: field("hourMode").value as Settings["hourMode"],
     delaySeconds: Math.min(3600, Math.max(0, Math.floor(Number(field("delaySeconds").value) || 0))),
     tapCommand: field("tapCommand").value as Settings["tapCommand"],

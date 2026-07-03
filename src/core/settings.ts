@@ -66,6 +66,11 @@ export const DEFAULT_SETTINGS: Settings = {
   keepAwake: true,
 };
 
+/** Swap digit and background colors, e.g. for sunlight readability (DSP-010). */
+export function swapColors(s: Settings): Settings {
+  return { ...s, digitColor: s.bgColor, bgColor: s.digitColor };
+}
+
 const HEX_COLOR = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
 
 function color(value: unknown, fallback: string): string {

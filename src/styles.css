@@ -417,6 +417,7 @@ button:focus-visible {
   justify-content: flex-end;
 }
 
+#btn-swap-colors,
 #help-dialog menu button,
 #settings-dialog menu button {
   min-height: 2.75rem;

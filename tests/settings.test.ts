@@ -1,7 +1,7 @@
 // Requirements under test: DSP-003..DSP-009, FMT-001/002/005, DLY-001,
 // CMD-003, MUL-003, AUD-002, PST-001, PST-003
 import { describe, expect, test } from "bun:test";
-import { DEFAULT_SETTINGS, parseSettings } from "../src/core/settings";
+import { DEFAULT_SETTINGS, parseSettings, swapColors } from "../src/core/settings";
 
 describe("parseSettings (defensive validation)", () => {
   test("PST-003/DSP-008: null, garbage or non-object input yields defaults", () => {
@@ -77,5 +77,25 @@ describe("parseSettings (defensive validation)", () => {
     expect(DEFAULT_SETTINGS.soundEnabled).toBe(true);
     expect(DEFAULT_SETTINGS.tapCommand).toBe("lap");
     expect(DEFAULT_SETTINGS.layout).toBe("auto");
+  });
+});
+
+describe("swapColors (DSP-010: invert digit and background colors)", () => {
+  test("swaps digitColor and bgColor, leaving other fields untouched", () => {
+    const s = { ...DEFAULT_SETTINGS, digitColor: "#22c55e", bgColor: "#000000" };
+    const swapped = swapColors(s);
+    expect(swapped.digitColor).toBe("#000000");
+    expect(swapped.bgColor).toBe("#22c55e");
+    expect({ ...swapped, digitColor: s.digitColor, bgColor: s.bgColor }).toEqual(s);
+  });
+
+  test("swapping twice restores the original settings", () => {
+    expect(swapColors(swapColors(DEFAULT_SETTINGS))).toEqual(DEFAULT_SETTINGS);
+  });
+
+  test("does not mutate its input", () => {
+    const s = { ...DEFAULT_SETTINGS };
+    swapColors(s);
+    expect(s).toEqual(DEFAULT_SETTINGS);
   });
 });

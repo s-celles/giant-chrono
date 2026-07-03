@@ -11,7 +11,7 @@ import {
   saveView,
   type View,
 } from "./core/persistence";
-import { DEFAULT_SETTINGS, FONT_STACKS, type Settings } from "./core/settings";
+import { DEFAULT_SETTINGS, FONT_STACKS, swapColors, type Settings } from "./core/settings";
 import {
   createStopwatch,
   elapsed,
@@ -600,6 +600,12 @@ function readSettingsForm(): void {
 
 settingsForm.addEventListener("input", readSettingsForm);
 settingsForm.addEventListener("change", readSettingsForm);
+$("btn-swap-colors").addEventListener("click", () => {
+  settings = swapColors(settings); // DSP-010
+  persistSettings();
+  applyTheme();
+  populateSettingsForm();
+});
 $("btn-defaults").addEventListener("click", () => {
   settings = { ...DEFAULT_SETTINGS };
   persistSettings();

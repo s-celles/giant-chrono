@@ -54,6 +54,10 @@ Enable **Multiple stopwatches** in Settings to manage several independent stopwa
 
 Where the Screen Wake Lock API is available, the screen stays on while a stopwatch counts or the clock view is active, and the lock is released otherwise (WAK-001, WAK-002). Without the API the app runs normally (WAK-003). Can be disabled in Settings.
 
+## Interface language (I18N)
+
+The UI is available in **English and French**. The language is detected automatically from the browser's language preferences, with English as the fallback for unsupported languages (I18N-001, I18N-002). A **Language** setting (Automatic / English / Français) forces a specific language and persists (I18N-003). Time and number formatting keep following the system locale (NFR-005).
+
 ## Help and about (HLP)
 
 The **?** button in the top bar opens an offline help dialog summarizing the stopwatch commands, gestures, and keyboard shortcuts (HLP-001), with links to the source code repository and this documentation (HLP-002).

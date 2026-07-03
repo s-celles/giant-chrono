@@ -13,187 +13,194 @@
   <body>
     <main id="app">
       <header id="topbar">
-        <button id="btn-view" type="button" aria-label="Switch between stopwatch and clock">Clock</button>
-        <button id="btn-sound" type="button" aria-label="Toggle sound" aria-pressed="true">🔊</button>
-        <button id="btn-lock" type="button" aria-label="Lock the screen controls">🔓</button>
-        <button id="btn-help" type="button" aria-label="Help and about">?</button>
-        <button id="btn-settings" type="button" aria-label="Open settings">⚙</button>
+        <button id="btn-view" type="button" data-i18n-aria="aria.switchView">Clock</button>
+        <button id="btn-sound" type="button" data-i18n-aria="aria.toggleSound" aria-pressed="true">🔊</button>
+        <button id="btn-lock" type="button" data-i18n-aria="aria.lock">🔓</button>
+        <button id="btn-help" type="button" data-i18n-aria="aria.help">?</button>
+        <button id="btn-settings" type="button" data-i18n-aria="aria.settings">⚙</button>
       </header>
 
       <div id="display" role="presentation">
-        <section id="view-stopwatch" aria-label="Stopwatch">
+        <section id="view-stopwatch" data-i18n-aria="aria.stopwatch" aria-label="Stopwatch">
           <div id="single-stopwatch">
             <div class="digits" id="sw-digits" role="timer" aria-live="off">00:00.0</div>
-            <ol id="laps" aria-label="Laps" reversed></ol>
+            <ol id="laps" data-i18n-aria="aria.laps" aria-label="Laps" reversed></ol>
           </div>
           <div id="multi-stopwatches" hidden></div>
           <div class="digits" id="sw-fraction" aria-hidden="true" hidden>.0</div>
         </section>
 
-        <section id="view-clock" aria-label="Clock" hidden>
+        <section id="view-clock" data-i18n-aria="aria.clock" aria-label="Clock" hidden>
           <div class="digits-row" id="clock-digital">
             <div class="digits" id="clock-digits">--:--</div>
             <span id="meridiem" hidden></span>
           </div>
-          <canvas id="clock-analog" role="img" aria-label="Analog clock" hidden></canvas>
+          <canvas id="clock-analog" role="img" data-i18n-aria="aria.analogClock" aria-label="Analog clock" hidden></canvas>
         </section>
 
         <div id="countdown-overlay" hidden>
           <div class="digits" id="countdown-digits" aria-live="assertive">3</div>
-          <p id="countdown-hint">Starting… tap Reset to cancel</p>
+          <p id="countdown-hint" data-i18n="countdown.hint">Starting… tap Reset to cancel</p>
         </div>
 
         <div id="lock-indicator" hidden>
-          <span>🔒 Locked</span>
-          <small>Hold anywhere for 1 s to unlock</small>
+          <span data-i18n="lock.title">🔒 Locked</span>
+          <small data-i18n="lock.hint">Hold anywhere for 1 s to unlock</small>
         </div>
       </div>
 
       <footer id="controls">
-        <button id="btn-reset" type="button" aria-label="Reset stopwatch and clear laps">Reset</button>
-        <button id="btn-startpause" type="button" class="primary" aria-label="Start or pause the stopwatch">Start</button>
-        <button id="btn-lap" type="button" aria-label="Record a lap">Lap</button>
+        <button id="btn-reset" type="button" data-i18n="ctl.reset" data-i18n-aria="aria.reset">Reset</button>
+        <button id="btn-startpause" type="button" class="primary" data-i18n-aria="aria.startpause">Start</button>
+        <button id="btn-lap" type="button" data-i18n="ctl.lap" data-i18n-aria="aria.lap">Lap</button>
       </footer>
 
       <div id="update-toast" hidden>
-        <span>Update available</span>
-        <button id="btn-update" type="button">Reload</button>
+        <span data-i18n="update.available">Update available</span>
+        <button id="btn-update" type="button" data-i18n="update.reload">Reload</button>
       </div>
 
-      <dialog id="help-dialog" aria-label="Help and about">
+      <dialog id="help-dialog" data-i18n-aria="aria.help" aria-label="Help and about">
         <div class="help-content">
           <h2>GiantChrono</h2>
 
           <section>
-            <h3>Stopwatch</h3>
+            <h3 data-i18n="help.stopwatch">Stopwatch</h3>
             <ul>
-              <li><strong>Start / Pause</strong> toggles counting; <strong>Lap</strong> records a split; <strong>Reset</strong> returns to zero and clears laps.</li>
-              <li>A tap on the display triggers the secondary command chosen in Settings (Lap by default).</li>
-              <li>Set a <strong>start delay</strong> in Settings for an audible 3-2-1 countdown before the start.</li>
+              <li data-i18n-html="help.sw1"><strong>Start / Pause</strong> toggles counting; <strong>Lap</strong> records a split; <strong>Reset</strong> returns to zero and clears laps.</li>
+              <li data-i18n="help.sw2">A tap on the display triggers the secondary command chosen in Settings (Lap by default).</li>
+              <li data-i18n-html="help.sw3">Set a <strong>start delay</strong> in Settings for an audible 3-2-1 countdown before the start.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Views and gestures</h3>
+            <h3 data-i18n="help.views">Views and gestures</h3>
             <ul>
-              <li>Swipe vertically on the display — or use the top-left button — to switch between stopwatch and clock.</li>
-              <li>Tap 🔓 to lock the controls against accidental touches; hold anywhere for one second to unlock.</li>
-              <li>Digits stack one group per line in portrait; force a layout in Settings.</li>
+              <li data-i18n="help.v1">Swipe vertically on the display — or use the top-left button — to switch between stopwatch and clock.</li>
+              <li data-i18n="help.v2">Tap 🔓 to lock the controls against accidental touches; hold anywhere for one second to unlock.</li>
+              <li data-i18n="help.v3">Digits stack one group per line in portrait; force a layout in Settings.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Keyboard</h3>
+            <h3 data-i18n="help.keyboard">Keyboard</h3>
             <ul>
-              <li><kbd>Space</kbd> start/pause · <kbd>L</kbd> lap · <kbd>R</kbd> reset · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> switch view</li>
+              <li data-i18n-html="help.kb"><kbd>Space</kbd> start/pause · <kbd>L</kbd> lap · <kbd>R</kbd> reset · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> switch view</li>
             </ul>
           </section>
 
           <section>
-            <h3>About</h3>
-            <p>Free, open source, offline-first. No ads, no tracking: all data stays on your device.</p>
+            <h3 data-i18n="help.about">About</h3>
+            <p data-i18n="help.about1">Free, open source, offline-first. No ads, no tracking: all data stays on your device.</p>
             <p>
-              <a href="https://github.com/s-celles/giant-chrono" target="_blank" rel="noopener">Source code</a>
+              <a href="https://github.com/s-celles/giant-chrono" target="_blank" rel="noopener" data-i18n="help.source">Source code</a>
               ·
-              <a href="https://github.com/s-celles/giant-chrono/tree/main/docs" target="_blank" rel="noopener">Full documentation</a>
+              <a href="https://github.com/s-celles/giant-chrono/tree/main/docs" target="_blank" rel="noopener" data-i18n="help.docs">Full documentation</a>
             </p>
           </section>
 
           <form method="dialog">
             <menu>
-              <button value="close" class="primary">Close</button>
+              <button value="close" class="primary" data-i18n="st.close">Close</button>
             </menu>
           </form>
         </div>
       </dialog>
 
-      <dialog id="settings-dialog" aria-label="Settings">
+      <dialog id="settings-dialog" data-i18n-aria="st.title" aria-label="Settings">
         <form method="dialog" id="settings-form">
-          <h2>Settings</h2>
+          <h2 data-i18n="st.title">Settings</h2>
 
           <fieldset>
-            <legend>Display</legend>
-            <label>Digit color <input type="color" name="digitColor" /></label>
-            <label>Background <input type="color" name="bgColor" /></label>
-            <button id="btn-swap-colors" type="button" aria-label="Swap digit and background colors">⇄ Swap colors</button>
-            <label>Font
+            <legend data-i18n="st.display">Display</legend>
+            <label><span data-i18n="st.digitColor">Digit color</span> <input type="color" name="digitColor" /></label>
+            <label><span data-i18n="st.bgColor">Background</span> <input type="color" name="bgColor" /></label>
+            <button id="btn-swap-colors" type="button" data-i18n="st.swap" data-i18n-aria="aria.swapColors">⇄ Swap colors</button>
+            <label><span data-i18n="st.font">Font</span>
               <select name="font">
-                <option value="system-mono">Monospace</option>
-                <option value="system-sans">Sans-serif</option>
-                <option value="system-serif">Serif</option>
+                <option value="system-mono" data-i18n="opt.mono">Monospace</option>
+                <option value="system-sans" data-i18n="opt.sans">Sans-serif</option>
+                <option value="system-serif" data-i18n="opt.serif">Serif</option>
               </select>
             </label>
-            <label>Layout
+            <label><span data-i18n="st.layout">Layout</span>
               <select name="layout">
-                <option value="auto">Automatic (stacked in portrait)</option>
-                <option value="inline">Single line</option>
-                <option value="stacked">Stacked</option>
+                <option value="auto" data-i18n="opt.layoutAuto">Automatic (stacked in portrait)</option>
+                <option value="inline" data-i18n="opt.layoutInline">Single line</option>
+                <option value="stacked" data-i18n="opt.layoutStacked">Stacked</option>
               </select>
             </label>
-            <label>Size <input type="range" name="sizePct" min="20" max="100" step="5" /></label>
-            <label>Letter spacing <input type="range" name="letterSpacing" min="0" max="20" step="1" /></label>
+            <label><span data-i18n="st.size">Size</span> <input type="range" name="sizePct" min="20" max="100" step="5" /></label>
+            <label><span data-i18n="st.spacing">Letter spacing</span> <input type="range" name="letterSpacing" min="0" max="20" step="1" /></label>
           </fieldset>
 
           <fieldset>
-            <legend>Stopwatch</legend>
-            <label>Hours
+            <legend data-i18n="st.stopwatch">Stopwatch</legend>
+            <label><span data-i18n="st.hours">Hours</span>
               <select name="stopwatchHours">
-                <option value="auto">Automatic</option>
-                <option value="always">Always</option>
-                <option value="never">Never</option>
+                <option value="auto" data-i18n="opt.auto">Automatic</option>
+                <option value="always" data-i18n="opt.always">Always</option>
+                <option value="never" data-i18n="opt.never">Never</option>
               </select>
             </label>
-            <label>Precision
+            <label><span data-i18n="st.precision">Precision</span>
               <select name="fractionDigits">
-                <option value="0">Seconds</option>
-                <option value="1">Tenths</option>
-                <option value="2">Hundredths</option>
+                <option value="0" data-i18n="opt.seconds">Seconds</option>
+                <option value="1" data-i18n="opt.tenths">Tenths</option>
+                <option value="2" data-i18n="opt.hundredths">Hundredths</option>
               </select>
             </label>
-            <label>Start delay (s) <input type="number" name="delaySeconds" min="0" max="3600" step="1" /></label>
-            <label><input type="checkbox" name="multiEnabled" /> Multiple stopwatches</label>
+            <label><span data-i18n="st.delay">Start delay (s)</span> <input type="number" name="delaySeconds" min="0" max="3600" step="1" /></label>
+            <label><input type="checkbox" name="multiEnabled" /> <span data-i18n="st.multi">Multiple stopwatches</span></label>
           </fieldset>
 
           <fieldset>
-            <legend>Clock</legend>
-            <label>Face
+            <legend data-i18n="st.clock">Clock</legend>
+            <label><span data-i18n="st.face">Face</span>
               <select name="clockFace">
-                <option value="digital">Digital</option>
-                <option value="analog">Analog</option>
+                <option value="digital" data-i18n="opt.digital">Digital</option>
+                <option value="analog" data-i18n="opt.analog">Analog</option>
               </select>
             </label>
-            <label>Second hand
+            <label><span data-i18n="st.secondHand">Second hand</span>
               <select name="secondHand">
-                <option value="tick">Tick (stepped)</option>
-                <option value="sweep">Sweep (continuous)</option>
+                <option value="tick" data-i18n="opt.tick">Tick (stepped)</option>
+                <option value="sweep" data-i18n="opt.sweep">Sweep (continuous)</option>
               </select>
             </label>
-            <label>Time format
+            <label><span data-i18n="st.timeFormat">Time format</span>
               <select name="hourMode">
-                <option value="auto">Automatic (locale)</option>
-                <option value="12h">12-hour</option>
-                <option value="24h">24-hour</option>
+                <option value="auto" data-i18n="opt.hourAuto">Automatic (locale)</option>
+                <option value="12h" data-i18n="opt.12h">12-hour</option>
+                <option value="24h" data-i18n="opt.24h">24-hour</option>
               </select>
             </label>
-            <label><input type="checkbox" name="clockShowSeconds" /> Show seconds</label>
+            <label><input type="checkbox" name="clockShowSeconds" /> <span data-i18n="st.showSeconds">Show seconds</span></label>
           </fieldset>
 
           <fieldset>
-            <legend>Behavior</legend>
-            <label>Tap on display
-              <select name="tapCommand">
-                <option value="lap">Lap</option>
-                <option value="startpause">Start / Pause</option>
-                <option value="none">Disabled</option>
+            <legend data-i18n="st.behavior">Behavior</legend>
+            <label><span data-i18n="st.language">Language</span>
+              <select name="language">
+                <option value="auto" data-i18n="opt.langAuto">Automatic</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
               </select>
             </label>
-            <label><input type="checkbox" name="soundEnabled" /> Sound</label>
-            <label><input type="checkbox" name="keepAwake" /> Keep screen awake</label>
+            <label><span data-i18n="st.tap">Tap on display</span>
+              <select name="tapCommand">
+                <option value="lap" data-i18n="opt.tapLap">Lap</option>
+                <option value="startpause" data-i18n="opt.tapStartPause">Start / Pause</option>
+                <option value="none" data-i18n="opt.tapNone">Disabled</option>
+              </select>
+            </label>
+            <label><input type="checkbox" name="soundEnabled" /> <span data-i18n="st.sound">Sound</span></label>
+            <label><input type="checkbox" name="keepAwake" /> <span data-i18n="st.keepAwake">Keep screen awake</span></label>
           </fieldset>
 
           <menu>
-            <button id="btn-defaults" type="button">Restore defaults</button>
-            <button value="close" class="primary">Close</button>
+            <button id="btn-defaults" type="button" data-i18n="st.defaults">Restore defaults</button>
+            <button value="close" class="primary" data-i18n="st.close">Close</button>
           </menu>
         </form>
       </dialog>

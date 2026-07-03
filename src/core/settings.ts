@@ -3,6 +3,9 @@
 
 import type { SecondHandMode } from "./analog";
 import type { HoursMode } from "./format";
+import type { Lang } from "./i18n";
+
+export type LanguageChoice = "auto" | Lang;
 
 export type HourMode = "auto" | "12h" | "24h";
 export type LayoutMode = "auto" | "inline" | "stacked";
@@ -45,6 +48,8 @@ export interface Settings {
   multiEnabled: boolean;
   /** Screen wake lock opt-in (WAK-001). */
   keepAwake: boolean;
+  /** UI language; "auto" detects from the browser (I18N-001, I18N-003). */
+  language: LanguageChoice;
 }
 
 export const FONT_STACKS: Record<FontId, string> = {
@@ -72,6 +77,7 @@ export const DEFAULT_SETTINGS: Settings = {
   soundEnabled: true,
   multiEnabled: false,
   keepAwake: true,
+  language: "auto",
 };
 
 /** Swap digit and background colors, e.g. for sunlight readability (DSP-010). */
@@ -128,5 +134,6 @@ export function parseSettings(raw: unknown): Settings {
     soundEnabled: bool(o.soundEnabled, d.soundEnabled),
     multiEnabled: bool(o.multiEnabled, d.multiEnabled),
     keepAwake: bool(o.keepAwake, d.keepAwake),
+    language: oneOf(o.language, ["auto", "en", "fr"], d.language),
   };
 }

@@ -2,6 +2,7 @@
 
 import { countdownStatus } from "./core/countdown";
 import { defaultHour12, formatClock, formatElapsed, lapRows, stackTime } from "./core/format";
+import { MESSAGES, resolveLang, type Lang, type MsgKey } from "./core/i18n";
 import {
   loadSettings,
   loadStopwatches,
@@ -46,6 +47,32 @@ let lastAnnouncedSecond = -1;
 
 const beeper = new Beeper();
 const wakeLock = new WakeLockManager();
+
+// ---------- UI language (I18N-001..I18N-003) ----------
+
+function resolveUiLang(): Lang {
+  if (settings.language !== "auto") return settings.language;
+  return resolveLang(navigator.languages ?? [navigator.language]);
+}
+
+let lang: Lang = resolveUiLang();
+const t = (key: MsgKey): string => MESSAGES[lang][key];
+
+/** Translate all statically tagged elements and refresh dynamic labels. */
+function applyI18n(): void {
+  lang = resolveUiLang();
+  document.documentElement.lang = lang;
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n]")) {
+    el.textContent = t(el.dataset.i18n as MsgKey);
+  }
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n-html]")) {
+    // Trusted catalog strings only (inline <strong>/<kbd> markup).
+    el.innerHTML = t(el.dataset.i18nHtml as MsgKey);
+  }
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n-aria]")) {
+    el.setAttribute("aria-label", t(el.dataset.i18nAria as MsgKey));
+  }
+}
 
 // ---------- Elements ----------
 
@@ -177,7 +204,7 @@ function syncViewChrome(): void {
   const stopwatchActive = view === "stopwatch";
   viewStopwatch.hidden = !stopwatchActive;
   viewClock.hidden = stopwatchActive;
-  btnView.textContent = stopwatchActive ? "Clock" : "Stopwatch";
+  btnView.textContent = stopwatchActive ? t("view.clock") : t("view.stopwatch");
   controls.hidden = !stopwatchActive || settings.multiEnabled;
 }
 
@@ -185,7 +212,7 @@ function syncLockChrome(): void {
   lockIndicator.hidden = !locked; // LCK-002
   document.body.classList.toggle("locked", locked);
   btnLock.textContent = locked ? "🔒" : "🔓";
-  btnLock.setAttribute("aria-label", locked ? "Locked — hold to unlock" : "Lock the screen controls");
+  btnLock.setAttribute("aria-label", locked ? t("aria.lockLocked") : t("aria.lock"));
 }
 
 function syncSoundChrome(): void {
@@ -237,7 +264,7 @@ function buildMultiCard(index: number): HTMLElement {
     return b;
   };
 
-  const startBtn = mkButton("Start", () => {
+  const startBtn = mkButton(t("ctl.start"), () => {
     const s = stopwatches[index];
     if (s) stopwatches[index] = toggle(s, Date.now()); // MUL-002
   });
@@ -245,10 +272,10 @@ function buildMultiCard(index: number): HTMLElement {
 
   row.append(
     startBtn,
-    mkButton("Reset", () => {
+    mkButton(t("ctl.reset"), () => {
       if (stopwatches[index]) stopwatches[index] = reset(); // MUL-002
     }),
-    mkButton("Remove", () => {
+    mkButton(t("ctl.remove"), () => {
       if (stopwatches.length > 1) {
         stopwatches.splice(index, 1);
         rebuildMultiCards();
@@ -257,7 +284,7 @@ function buildMultiCard(index: number): HTMLElement {
   );
 
   const rebuildLabels = () => {
-    startBtn.textContent = stopwatches[index]?.running ? "Pause" : "Start";
+    startBtn.textContent = stopwatches[index]?.running ? t("ctl.pause") : t("ctl.start");
   };
   rebuildLabels();
 
@@ -269,8 +296,8 @@ function buildAddButton(): HTMLButtonElement {
   const b = document.createElement("button");
   b.type = "button";
   b.id = "btn-add-stopwatch";
-  b.textContent = "+ Add";
-  b.setAttribute("aria-label", "Add a stopwatch");
+  b.textContent = t("ctl.add");
+  b.setAttribute("aria-label", t("aria.addStopwatch"));
   b.addEventListener("click", () => {
     if (locked) return;
     stopwatches.push(createStopwatch()); // MUL-001
@@ -391,7 +418,7 @@ function render(): void {
         }
       }
       renderLaps();
-      btnStartPause.textContent = first?.running ? "Pause" : countdown ? "Cancel" : "Start";
+      btnStartPause.textContent = first?.running ? t("ctl.pause") : countdown ? t("ctl.cancel") : t("ctl.start");
     }
   } else if (settings.clockFace === "analog") {
     // Analog clock face (CLK-005), themed from settings (CLK-004).
@@ -584,6 +611,7 @@ function populateSettingsForm(): void {
   field("clockFace").value = settings.clockFace;
   field("secondHand").value = settings.secondHand;
   (field("clockShowSeconds") as HTMLInputElement).checked = settings.clockShowSeconds;
+  field("language").value = settings.language;
   (field("soundEnabled") as HTMLInputElement).checked = settings.soundEnabled;
   (field("multiEnabled") as HTMLInputElement).checked = settings.multiEnabled;
   (field("keepAwake") as HTMLInputElement).checked = settings.keepAwake;
@@ -600,6 +628,7 @@ function normalizeHex(hex: string): string {
 
 function readSettingsForm(): void {
   const previousMulti = settings.multiEnabled;
+  const previousLanguage = settings.language;
   settings = {
     digitColor: (field("digitColor") as HTMLInputElement).value,
     bgColor: (field("bgColor") as HTMLInputElement).value,
@@ -618,12 +647,22 @@ function readSettingsForm(): void {
     soundEnabled: (field("soundEnabled") as HTMLInputElement).checked,
     multiEnabled: (field("multiEnabled") as HTMLInputElement).checked,
     keepAwake: (field("keepAwake") as HTMLInputElement).checked,
+    language: field("language").value as Settings["language"],
   };
   persistSettings(); // FMT-005, DSP-007, PST-001
   applyTheme();
   syncSoundChrome();
   renderedLapCount = -1; // re-render laps with the new format
   if (previousMulti !== settings.multiEnabled) rebuildMultiCards();
+  if (previousLanguage !== settings.language) refreshLanguage(); // I18N-003
+}
+
+/** Re-translate the whole UI, including dynamically built labels. */
+function refreshLanguage(): void {
+  applyI18n();
+  syncViewChrome();
+  syncLockChrome();
+  if (settings.multiEnabled) rebuildMultiCards();
 }
 
 settingsForm.addEventListener("input", readSettingsForm);
@@ -641,6 +680,7 @@ $("btn-defaults").addEventListener("click", () => {
   syncSoundChrome();
   populateSettingsForm();
   rebuildMultiCards();
+  refreshLanguage();
 });
 
 // ---------- Service worker & update toast (PWA-003, PWA-005) ----------
@@ -656,6 +696,7 @@ registerServiceWorker((apply) => {
 // ---------- Boot ----------
 
 applyTheme();
+applyI18n(); // I18N-001: translate before first paint
 syncViewChrome();
 syncLockChrome();
 syncSoundChrome();

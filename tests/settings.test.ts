@@ -61,6 +61,13 @@ describe("parseSettings (defensive validation)", () => {
     expect(parseSettings({ clockFace: "sundial" }).clockFace).toBe(DEFAULT_SETTINGS.clockFace);
   });
 
+  test("I18N-003: language accepts auto, en and fr only", () => {
+    expect(parseSettings({ language: "fr" }).language).toBe("fr");
+    expect(parseSettings({ language: "en" }).language).toBe("en");
+    expect(parseSettings({ language: "auto" }).language).toBe("auto");
+    expect(parseSettings({ language: "klingon" }).language).toBe(DEFAULT_SETTINGS.language);
+  });
+
   test("CLK-006: secondHand accepts sweep and tick only", () => {
     expect(parseSettings({ secondHand: "sweep" }).secondHand).toBe("sweep");
     expect(parseSettings({ secondHand: "tick" }).secondHand).toBe("tick");

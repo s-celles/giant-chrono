@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stacked digit layout: each hours/minutes/seconds group on its own line with the stopwatch fraction shown small in the bottom-right corner — applied automatically in portrait orientation, or forced via the new **Layout** setting (automatic / single line / stacked) for both the stopwatch and the clock (DSP-009)
 - In-app help dialog (**?** button): offline usage guide covering commands, gestures, and keyboard shortcuts, with links to the source code and full documentation (HLP-001, HLP-002)
 - **⇄ Swap colors** button in Settings to invert digit and background colors in one tap, applied and persisted immediately (DSP-010)
+- Analog clock face: a **Face** setting (digital / analog) renders the clock as a themed dial with hour, minute and smoothly sweeping second hands, tick marks and numbers 1–12, auto-sized to the screen (CLK-005)
 
 ## [0.1.0] - 2026-07-02
 

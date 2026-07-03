@@ -55,6 +55,12 @@ describe("parseSettings (defensive validation)", () => {
     expect(parseSettings({ hourMode: "am" }).hourMode).toBe(DEFAULT_SETTINGS.hourMode);
   });
 
+  test("CLK-005: clockFace accepts digital and analog only", () => {
+    expect(parseSettings({ clockFace: "analog" }).clockFace).toBe("analog");
+    expect(parseSettings({ clockFace: "digital" }).clockFace).toBe("digital");
+    expect(parseSettings({ clockFace: "sundial" }).clockFace).toBe(DEFAULT_SETTINGS.clockFace);
+  });
+
   test("DSP-009: layout accepts auto, inline and stacked only", () => {
     expect(parseSettings({ layout: "auto" }).layout).toBe("auto");
     expect(parseSettings({ layout: "inline" }).layout).toBe("inline");

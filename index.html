@@ -31,10 +31,11 @@
         </section>
 
         <section id="view-clock" aria-label="Clock" hidden>
-          <div class="digits-row">
+          <div class="digits-row" id="clock-digital">
             <div class="digits" id="clock-digits">--:--</div>
             <span id="meridiem" hidden></span>
           </div>
+          <canvas id="clock-analog" role="img" aria-label="Analog clock" hidden></canvas>
         </section>
 
         <div id="countdown-overlay" hidden>
@@ -155,6 +156,12 @@
 
           <fieldset>
             <legend>Clock</legend>
+            <label>Face
+              <select name="clockFace">
+                <option value="digital">Digital</option>
+                <option value="analog">Analog</option>
+              </select>
+            </label>
             <label>Time format
               <select name="hourMode">
                 <option value="auto">Automatic (locale)</option>

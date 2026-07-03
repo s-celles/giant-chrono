@@ -5,6 +5,7 @@ import type { HoursMode } from "./format";
 
 export type HourMode = "auto" | "12h" | "24h";
 export type LayoutMode = "auto" | "inline" | "stacked";
+export type ClockFace = "digital" | "analog";
 export type TapCommand = "none" | "lap" | "startpause";
 export type FontId = "system-mono" | "system-sans" | "system-serif";
 
@@ -27,6 +28,8 @@ export interface Settings {
   fractionDigits: 0 | 1 | 2;
   /** Clock seconds visibility (CLK-003). */
   clockShowSeconds: boolean;
+  /** Digital or analog clock face (CLK-005). */
+  clockFace: ClockFace;
   /** 12/24 h choice; "auto" derives from the locale (FMT-001, FMT-002). */
   hourMode: HourMode;
   /** Delayed start in seconds, 0 = immediate (DLY-001). */
@@ -58,6 +61,7 @@ export const DEFAULT_SETTINGS: Settings = {
   stopwatchHours: "auto",
   fractionDigits: 1,
   clockShowSeconds: true,
+  clockFace: "digital",
   hourMode: "auto",
   delaySeconds: 0,
   tapCommand: "lap",
@@ -112,6 +116,7 @@ export function parseSettings(raw: unknown): Settings {
         ? o.fractionDigits
         : d.fractionDigits,
     clockShowSeconds: bool(o.clockShowSeconds, d.clockShowSeconds),
+    clockFace: oneOf(o.clockFace, ["digital", "analog"], d.clockFace),
     hourMode: oneOf(o.hourMode, ["auto", "12h", "24h"], d.hourMode),
     delaySeconds: intInRange(o.delaySeconds, 0, 3600, d.delaySeconds),
     tapCommand: oneOf(o.tapCommand, ["none", "lap", "startpause"], d.tapCommand),

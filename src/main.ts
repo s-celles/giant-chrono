@@ -22,6 +22,7 @@ import {
   toggle,
   type StopwatchState,
 } from "./core/stopwatch";
+import { drawAnalogClock } from "./analog";
 import { Beeper } from "./audio";
 import { fitDigits, widthTemplate } from "./fit";
 import { registerServiceWorker } from "./sw-register";
@@ -56,6 +57,8 @@ const multiContainer = $("multi-stopwatches");
 const swDigits = $("sw-digits");
 const swFraction = $("sw-fraction");
 const clockDigits = $("clock-digits");
+const clockDigital = $("clock-digital");
+const clockAnalog = $<HTMLCanvasElement>("clock-analog");
 const meridiemEl = $("meridiem");
 const lapsList = $<HTMLOListElement>("laps");
 const countdownOverlay = $("countdown-overlay");
@@ -390,8 +393,28 @@ function render(): void {
       renderLaps();
       btnStartPause.textContent = first?.running ? "Pause" : countdown ? "Cancel" : "Start";
     }
+  } else if (settings.clockFace === "analog") {
+    // Analog clock face (CLK-005), themed from settings (CLK-004).
+    clockDigital.hidden = true;
+    clockAnalog.hidden = false;
+    const dpr = window.devicePixelRatio || 1;
+    const side = Math.floor(
+      Math.min(viewClock.clientWidth, viewClock.clientHeight) * 0.96 * (settings.sizePct / 100),
+    );
+    if (side > 0 && clockAnalog.width !== Math.floor(side * dpr)) {
+      clockAnalog.width = Math.floor(side * dpr);
+      clockAnalog.height = Math.floor(side * dpr);
+      clockAnalog.style.width = `${side}px`;
+      clockAnalog.style.height = `${side}px`;
+    }
+    drawAnalogClock(clockAnalog, new Date(now), {
+      digitColor: settings.digitColor,
+      fontFamily: font,
+    });
   } else {
     // Clock view (CLK-001, CLK-002): rAF far exceeds the 1 Hz minimum.
+    clockDigital.hidden = false;
+    clockAnalog.hidden = true;
     const hour12 = resolveHour12();
     const clock = formatClock(new Date(now), {
       hour12,
@@ -557,6 +580,7 @@ function populateSettingsForm(): void {
   field("delaySeconds").value = String(settings.delaySeconds);
   field("hourMode").value = settings.hourMode;
   field("tapCommand").value = settings.tapCommand;
+  field("clockFace").value = settings.clockFace;
   (field("clockShowSeconds") as HTMLInputElement).checked = settings.clockShowSeconds;
   (field("soundEnabled") as HTMLInputElement).checked = settings.soundEnabled;
   (field("multiEnabled") as HTMLInputElement).checked = settings.multiEnabled;
@@ -584,6 +608,7 @@ function readSettingsForm(): void {
     stopwatchHours: field("stopwatchHours").value as Settings["stopwatchHours"],
     fractionDigits: Number(field("fractionDigits").value) as Settings["fractionDigits"],
     clockShowSeconds: (field("clockShowSeconds") as HTMLInputElement).checked,
+    clockFace: field("clockFace").value as Settings["clockFace"],
     hourMode: field("hourMode").value as Settings["hourMode"],
     delaySeconds: Math.min(3600, Math.max(0, Math.floor(Number(field("delaySeconds").value) || 0))),
     tapCommand: field("tapCommand").value as Settings["tapCommand"],

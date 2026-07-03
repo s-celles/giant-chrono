@@ -285,6 +285,7 @@ body.locked #topbar button:not(#btn-lock) {
 }
 
 #controls button.primary,
+#help-dialog button.primary,
 #settings-dialog button.primary {
   background: var(--accent);
   border-color: var(--accent);
@@ -327,8 +328,9 @@ button:focus-visible {
   cursor: pointer;
 }
 
-/* ---------- Settings dialog ---------- */
+/* ---------- Settings and help dialogs ---------- */
 
+#help-dialog,
 #settings-dialog {
   border: none;
   border-radius: 1rem;
@@ -341,12 +343,43 @@ button:focus-visible {
   padding: 1.25rem;
 }
 
+#help-dialog::backdrop,
 #settings-dialog::backdrop {
   background: rgb(0 0 0 / 55%);
 }
 
+#help-dialog h2,
 #settings-dialog h2 {
   margin-top: 0;
+}
+
+/* ---------- Help dialog (HLP-001, HLP-002) ---------- */
+
+#help-dialog h3 {
+  margin: 0.4rem 0;
+  font-size: 1.05rem;
+}
+
+#help-dialog ul {
+  margin: 0 0 0.9rem;
+  padding-left: 1.2rem;
+}
+
+#help-dialog li,
+#help-dialog p {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+#help-dialog kbd {
+  border: 1px solid #3a3a40;
+  border-radius: 0.3rem;
+  padding: 0 0.35rem;
+  font-family: inherit;
+}
+
+#help-dialog a {
+  color: #7ba3f2;
 }
 
 #settings-dialog fieldset {
@@ -371,6 +404,7 @@ button:focus-visible {
   max-width: 55%;
 }
 
+#help-dialog menu,
 #settings-dialog menu {
   display: flex;
   justify-content: space-between;
@@ -379,6 +413,11 @@ button:focus-visible {
   margin: 0;
 }
 
+#help-dialog menu {
+  justify-content: flex-end;
+}
+
+#help-dialog menu button,
 #settings-dialog menu button {
   min-height: 2.75rem;
   padding: 0 1rem;

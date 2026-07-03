@@ -16,6 +16,7 @@
         <button id="btn-view" type="button" aria-label="Switch between stopwatch and clock">Clock</button>
         <button id="btn-sound" type="button" aria-label="Toggle sound" aria-pressed="true">🔊</button>
         <button id="btn-lock" type="button" aria-label="Lock the screen controls">🔓</button>
+        <button id="btn-help" type="button" aria-label="Help and about">?</button>
         <button id="btn-settings" type="button" aria-label="Open settings">⚙</button>
       </header>
 
@@ -57,6 +58,53 @@
         <span>Update available</span>
         <button id="btn-update" type="button">Reload</button>
       </div>
+
+      <dialog id="help-dialog" aria-label="Help and about">
+        <div class="help-content">
+          <h2>GiantChrono</h2>
+
+          <section>
+            <h3>Stopwatch</h3>
+            <ul>
+              <li><strong>Start / Pause</strong> toggles counting; <strong>Lap</strong> records a split; <strong>Reset</strong> returns to zero and clears laps.</li>
+              <li>A tap on the display triggers the secondary command chosen in Settings (Lap by default).</li>
+              <li>Set a <strong>start delay</strong> in Settings for an audible 3-2-1 countdown before the start.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Views and gestures</h3>
+            <ul>
+              <li>Swipe vertically on the display — or use the top-left button — to switch between stopwatch and clock.</li>
+              <li>Tap 🔓 to lock the controls against accidental touches; hold anywhere for one second to unlock.</li>
+              <li>Digits stack one group per line in portrait; force a layout in Settings.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Keyboard</h3>
+            <ul>
+              <li><kbd>Space</kbd> start/pause · <kbd>L</kbd> lap · <kbd>R</kbd> reset · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> switch view</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>About</h3>
+            <p>Free, open source, offline-first. No ads, no tracking: all data stays on your device.</p>
+            <p>
+              <a href="https://github.com/s-celles/giant-chrono" target="_blank" rel="noopener">Source code</a>
+              ·
+              <a href="https://github.com/s-celles/giant-chrono/tree/main/docs" target="_blank" rel="noopener">Full documentation</a>
+            </p>
+          </section>
+
+          <form method="dialog">
+            <menu>
+              <button value="close" class="primary">Close</button>
+            </menu>
+          </form>
+        </div>
+      </dialog>
 
       <dialog id="settings-dialog" aria-label="Settings">
         <form method="dialog" id="settings-form">

@@ -54,6 +54,10 @@ Enable **Multiple stopwatches** in Settings to manage several independent stopwa
 
 Where the Screen Wake Lock API is available, the screen stays on while a stopwatch counts or the clock view is active, and the lock is released otherwise (WAK-001, WAK-002). Without the API the app runs normally (WAK-003). Can be disabled in Settings.
 
+## Help and about (HLP)
+
+The **?** button in the top bar opens an offline help dialog summarizing the stopwatch commands, gestures, and keyboard shortcuts (HLP-001), with links to the source code repository and this documentation (HLP-002).
+
 ## Persistence (PST)
 
 Settings, the 12/24 h choice, delay, options, the active view, and full stopwatch state (start timestamp, paused value, laps) are stored locally in `localStorage` (PST-001, PST-002). Corrupted or missing data is replaced by defaults without crashing (PST-003).

@@ -69,6 +69,8 @@ const btnView = $<HTMLButtonElement>("btn-view");
 const btnLock = $<HTMLButtonElement>("btn-lock");
 const btnSound = $<HTMLButtonElement>("btn-sound");
 const btnSettings = $<HTMLButtonElement>("btn-settings");
+const btnHelp = $<HTMLButtonElement>("btn-help");
+const helpDialog = $<HTMLDialogElement>("help-dialog");
 const settingsDialog = $<HTMLDialogElement>("settings-dialog");
 const settingsForm = $<HTMLFormElement>("settings-form");
 const updateToast = $("update-toast");
@@ -490,6 +492,10 @@ btnSettings.addEventListener("click", () => {
   populateSettingsForm();
   settingsDialog.showModal();
 });
+btnHelp.addEventListener("click", () => {
+  if (locked) return;
+  helpDialog.showModal(); // HLP-001
+});
 btnLock.addEventListener("click", () => {
   if (!locked) toggleLock();
 });
@@ -507,7 +513,7 @@ btnLock.addEventListener("pointerup", () => {
 // ---------- Keyboard (NFR-004) ----------
 
 window.addEventListener("keydown", (e) => {
-  if (settingsDialog.open) return;
+  if (settingsDialog.open || helpDialog.open) return;
   const target = e.target as HTMLElement;
   if (target.tagName === "INPUT" || target.tagName === "SELECT" || target.tagName === "TEXTAREA") return;
   switch (e.code) {

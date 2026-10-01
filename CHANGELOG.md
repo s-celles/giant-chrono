@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **⇄ Swap colors** button in Settings to invert digit and background colors in one tap, applied and persisted immediately (DSP-010)
 - Analog clock face: a **Face** setting (digital / analog) renders the clock as a themed dial with hour, minute and second hands, tick marks and numbers 1–12, auto-sized to the screen (CLK-005)
 - **Second hand** setting for the analog face: tick (one step per second, default) or sweep (continuous motion) (CLK-006)
+- **Theme** setting and top-bar toggle (🌓 System / ☀️ Light / 🌙 Dark): "System" follows the OS color scheme live; light and dark each keep their own digit/background colors, and dialogs follow the active theme. Existing users keep their current colors as the dark theme (DSP-011)
 - French translation of the UI, auto-detected from the browser language with English fallback, plus a **Language** setting (Automatic / English / Français) to force it (I18N-001…003)
 
 ## [0.1.0] - 2026-07-02

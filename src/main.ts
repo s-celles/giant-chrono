@@ -12,7 +12,17 @@ import {
   saveView,
   type View,
 } from "./core/persistence";
-import { DEFAULT_SETTINGS, FONT_STACKS, swapColors, type Settings } from "./core/settings";
+import {
+  DEFAULT_SETTINGS,
+  FONT_STACKS,
+  nextTheme,
+  resolveScheme,
+  schemeColors,
+  swapColors,
+  withSchemeColors,
+  type ColorScheme,
+  type Settings,
+} from "./core/settings";
 import {
   createStopwatch,
   elapsed,
@@ -99,6 +109,7 @@ const btnView = $<HTMLButtonElement>("btn-view");
 const btnLock = $<HTMLButtonElement>("btn-lock");
 const btnSound = $<HTMLButtonElement>("btn-sound");
 const btnSettings = $<HTMLButtonElement>("btn-settings");
+const btnTheme = $<HTMLButtonElement>("btn-theme");
 const btnHelp = $<HTMLButtonElement>("btn-help");
 const helpDialog = $<HTMLDialogElement>("help-dialog");
 const settingsDialog = $<HTMLDialogElement>("settings-dialog");
@@ -111,19 +122,43 @@ const btnUpdate = $<HTMLButtonElement>("btn-update");
 const persistStopwatches = () => saveStopwatches(storage, stopwatches);
 const persistSettings = () => saveSettings(storage, settings);
 
-// ---------- Theme (DSP-003..DSP-005) ----------
+// ---------- Theme (DSP-003..DSP-005, DSP-011) ----------
+
+const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+function activeScheme(): ColorScheme {
+  return resolveScheme(settings.theme, darkQuery.matches);
+}
 
 function applyTheme(): void {
+  const scheme = activeScheme();
+  const colors = schemeColors(settings, scheme);
+  document.documentElement.dataset.scheme = scheme;
   const root = document.documentElement.style;
-  root.setProperty("--digit-color", settings.digitColor);
-  root.setProperty("--bg-color", settings.bgColor);
+  root.setProperty("--digit-color", colors.digitColor);
+  root.setProperty("--bg-color", colors.bgColor);
   root.setProperty("--digit-font", FONT_STACKS[settings.font]);
   root.setProperty("--size-factor", String(settings.sizePct / 100));
   root.setProperty("--digit-spacing", `${settings.letterSpacing / 100}em`);
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", settings.bgColor);
+    ?.setAttribute("content", colors.bgColor);
+  syncThemeChrome();
 }
+
+const THEME_ICONS = { system: "🌓", light: "☀️", dark: "🌙" } as const;
+
+function syncThemeChrome(): void {
+  btnTheme.textContent = THEME_ICONS[settings.theme];
+  const label = { system: t("opt.themeSystem"), light: t("opt.themeLight"), dark: t("opt.themeDark") };
+  btnTheme.setAttribute("aria-label", `${t("aria.theme")} ${label[settings.theme]}`);
+  btnTheme.title = label[settings.theme];
+}
+
+// Follow live OS theme changes while in "system" mode (DSP-011).
+darkQuery.addEventListener("change", () => {
+  if (settings.theme === "system") applyTheme();
+});
 
 // ---------- 12/24 h resolution (FMT-001, FMT-002) ----------
 
@@ -435,7 +470,7 @@ function render(): void {
       clockAnalog.style.height = `${side}px`;
     }
     drawAnalogClock(clockAnalog, new Date(now), {
-      digitColor: settings.digitColor,
+      digitColor: schemeColors(settings, activeScheme()).digitColor,
       fontFamily: font,
       secondHand: settings.secondHand,
     });
@@ -543,6 +578,12 @@ btnSettings.addEventListener("click", () => {
   populateSettingsForm();
   settingsDialog.showModal();
 });
+btnTheme.addEventListener("click", () => {
+  if (locked) return;
+  settings = { ...settings, theme: nextTheme(settings.theme) }; // DSP-011
+  persistSettings();
+  applyTheme();
+});
 btnHelp.addEventListener("click", () => {
   if (locked) return;
   helpDialog.showModal(); // HLP-001
@@ -597,8 +638,11 @@ function field(name: keyof Settings): HTMLInputElement | HTMLSelectElement {
 }
 
 function populateSettingsForm(): void {
-  (field("digitColor") as HTMLInputElement).value = normalizeHex(settings.digitColor);
-  (field("bgColor") as HTMLInputElement).value = normalizeHex(settings.bgColor);
+  // Color pickers edit the palette of the currently active scheme (DSP-011).
+  const colors = schemeColors(settings, activeScheme());
+  field("theme").value = settings.theme;
+  (field("digitColor") as HTMLInputElement).value = normalizeHex(colors.digitColor);
+  (field("bgColor") as HTMLInputElement).value = normalizeHex(colors.bgColor);
   field("font").value = settings.font;
   field("sizePct").value = String(settings.sizePct);
   field("letterSpacing").value = String(settings.letterSpacing);
@@ -629,9 +673,19 @@ function normalizeHex(hex: string): string {
 function readSettingsForm(): void {
   const previousMulti = settings.multiEnabled;
   const previousLanguage = settings.language;
-  settings = {
+  const previousTheme = settings.theme;
+  // Pickers show the palette of the scheme active before this edit.
+  const editedScheme = activeScheme();
+  const edited = withSchemeColors(settings, editedScheme, {
     digitColor: (field("digitColor") as HTMLInputElement).value,
     bgColor: (field("bgColor") as HTMLInputElement).value,
+  });
+  settings = {
+    theme: field("theme").value as Settings["theme"],
+    digitColor: edited.digitColor,
+    bgColor: edited.bgColor,
+    lightDigitColor: edited.lightDigitColor,
+    lightBgColor: edited.lightBgColor,
     font: field("font").value as Settings["font"],
     sizePct: Number(field("sizePct").value),
     letterSpacing: Number(field("letterSpacing").value),
@@ -655,6 +709,7 @@ function readSettingsForm(): void {
   renderedLapCount = -1; // re-render laps with the new format
   if (previousMulti !== settings.multiEnabled) rebuildMultiCards();
   if (previousLanguage !== settings.language) refreshLanguage(); // I18N-003
+  if (previousTheme !== settings.theme) populateSettingsForm(); // show the new palette
 }
 
 /** Re-translate the whole UI, including dynamically built labels. */
@@ -662,13 +717,14 @@ function refreshLanguage(): void {
   applyI18n();
   syncViewChrome();
   syncLockChrome();
+  syncThemeChrome();
   if (settings.multiEnabled) rebuildMultiCards();
 }
 
 settingsForm.addEventListener("input", readSettingsForm);
 settingsForm.addEventListener("change", readSettingsForm);
 $("btn-swap-colors").addEventListener("click", () => {
-  settings = swapColors(settings); // DSP-010
+  settings = swapColors(settings, activeScheme()); // DSP-010
   persistSettings();
   applyTheme();
   populateSettingsForm();

@@ -12,12 +12,21 @@ export type LayoutMode = "auto" | "inline" | "stacked";
 export type ClockFace = "digital" | "analog";
 export type TapCommand = "none" | "lap" | "startpause";
 export type FontId = "system-mono" | "system-sans" | "system-serif";
+/** Theme choice; "system" follows prefers-color-scheme (DSP-011). */
+export type ThemeMode = "system" | "light" | "dark";
+export type ColorScheme = "light" | "dark";
 
 export interface Settings {
-  /** Digit color, #rgb or #rrggbb (DSP-003). */
+  /** Light, dark, or follow the system color scheme (DSP-011). */
+  theme: ThemeMode;
+  /** Dark theme digit color, #rgb or #rrggbb (DSP-003). */
   digitColor: string;
-  /** Background color (DSP-003). */
+  /** Dark theme background color (DSP-003). */
   bgColor: string;
+  /** Light theme digit color (DSP-003, DSP-011). */
+  lightDigitColor: string;
+  /** Light theme background color (DSP-003, DSP-011). */
+  lightBgColor: string;
   /** Embedded/local font choice (DSP-004). */
   font: FontId;
   /** Relative digit size, 20-100 % of the maximum fit (DSP-005). */
@@ -60,8 +69,11 @@ export const FONT_STACKS: Record<FontId, string> = {
 };
 
 export const DEFAULT_SETTINGS: Settings = {
+  theme: "system",
   digitColor: "#ffffff",
   bgColor: "#000000",
+  lightDigitColor: "#000000",
+  lightBgColor: "#ffffff",
   font: "system-mono",
   sizePct: 100,
   letterSpacing: 2,
@@ -80,9 +92,40 @@ export const DEFAULT_SETTINGS: Settings = {
   language: "auto",
 };
 
-/** Swap digit and background colors, e.g. for sunlight readability (DSP-010). */
-export function swapColors(s: Settings): Settings {
-  return { ...s, digitColor: s.bgColor, bgColor: s.digitColor };
+/** Resolve the effective color scheme from the theme choice (DSP-011). */
+export function resolveScheme(theme: ThemeMode, systemPrefersDark: boolean): ColorScheme {
+  if (theme === "system") return systemPrefersDark ? "dark" : "light";
+  return theme;
+}
+
+/** Next theme for the top-bar toggle: system → light → dark → system (DSP-011). */
+export function nextTheme(theme: ThemeMode): ThemeMode {
+  return theme === "system" ? "light" : theme === "light" ? "dark" : "system";
+}
+
+export interface ColorPair {
+  digitColor: string;
+  bgColor: string;
+}
+
+/** Colors of the given scheme's palette (DSP-003, DSP-011). */
+export function schemeColors(s: Settings, scheme: ColorScheme): ColorPair {
+  return scheme === "light"
+    ? { digitColor: s.lightDigitColor, bgColor: s.lightBgColor }
+    : { digitColor: s.digitColor, bgColor: s.bgColor };
+}
+
+/** Replace the given scheme's palette, leaving the other one untouched. */
+export function withSchemeColors(s: Settings, scheme: ColorScheme, c: ColorPair): Settings {
+  return scheme === "light"
+    ? { ...s, lightDigitColor: c.digitColor, lightBgColor: c.bgColor }
+    : { ...s, digitColor: c.digitColor, bgColor: c.bgColor };
+}
+
+/** Swap the active scheme's digit and background colors, e.g. for sunlight readability (DSP-010). */
+export function swapColors(s: Settings, scheme: ColorScheme = "dark"): Settings {
+  const c = schemeColors(s, scheme);
+  return withSchemeColors(s, scheme, { digitColor: c.bgColor, bgColor: c.digitColor });
 }
 
 const HEX_COLOR = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
@@ -114,8 +157,13 @@ export function parseSettings(raw: unknown): Settings {
   const o = raw as Record<string, unknown>;
   const d = DEFAULT_SETTINGS;
   return {
+    // Settings saved before themes existed used a single (dark) palette:
+    // keep them on "dark" so their appearance does not change (DSP-011).
+    theme: o.theme === undefined ? "dark" : oneOf(o.theme, ["system", "light", "dark"], d.theme),
     digitColor: color(o.digitColor, d.digitColor),
     bgColor: color(o.bgColor, d.bgColor),
+    lightDigitColor: color(o.lightDigitColor, d.lightDigitColor),
+    lightBgColor: color(o.lightBgColor, d.lightBgColor),
     font: oneOf(o.font, ["system-mono", "system-sans", "system-serif"], d.font),
     sizePct: intInRange(o.sizePct, 20, 100, d.sizePct),
     letterSpacing: intInRange(o.letterSpacing, 0, 20, d.letterSpacing),

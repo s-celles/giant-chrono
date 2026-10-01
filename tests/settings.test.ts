@@ -1,7 +1,15 @@
 // Requirements under test: DSP-003..DSP-009, FMT-001/002/005, DLY-001,
-// CMD-003, MUL-003, AUD-002, PST-001, PST-003
+// DSP-010, DSP-011, CMD-003, MUL-003, AUD-002, PST-001, PST-003
 import { describe, expect, test } from "bun:test";
-import { DEFAULT_SETTINGS, parseSettings, swapColors } from "../src/core/settings";
+import {
+  DEFAULT_SETTINGS,
+  nextTheme,
+  parseSettings,
+  resolveScheme,
+  schemeColors,
+  swapColors,
+  withSchemeColors,
+} from "../src/core/settings";
 
 describe("parseSettings (defensive validation)", () => {
   test("PST-003/DSP-008: null, garbage or non-object input yields defaults", () => {
@@ -22,6 +30,7 @@ describe("parseSettings (defensive validation)", () => {
 
   test("DSP-008: invalid individual fields fall back per-field", () => {
     const s = parseSettings({
+      theme: "neon",
       digitColor: 123,
       bgColor: "javascript:alert(1)",
       font: "nonexistent-font",
@@ -97,6 +106,69 @@ describe("parseSettings (defensive validation)", () => {
     expect(DEFAULT_SETTINGS.tapCommand).toBe("lap");
     expect(DEFAULT_SETTINGS.layout).toBe("auto");
     expect(DEFAULT_SETTINGS.secondHand).toBe("tick");
+  });
+});
+
+describe("themes (DSP-011: system / light / dark)", () => {
+  test("new installs follow the system theme", () => {
+    expect(DEFAULT_SETTINGS.theme).toBe("system");
+    expect(parseSettings(null).theme).toBe("system");
+  });
+
+  test("theme accepts system, light and dark only", () => {
+    expect(parseSettings({ theme: "light" }).theme).toBe("light");
+    expect(parseSettings({ theme: "dark" }).theme).toBe("dark");
+    expect(parseSettings({ theme: "system" }).theme).toBe("system");
+    expect(parseSettings({ theme: 1 }).theme).toBe(DEFAULT_SETTINGS.theme);
+  });
+
+  test("settings saved before themes existed keep their dark palette", () => {
+    const s = parseSettings({ digitColor: "#22c55e", bgColor: "#111111" });
+    expect(s.theme).toBe("dark");
+    expect(schemeColors(s, resolveScheme(s.theme, false))).toEqual({
+      digitColor: "#22c55e",
+      bgColor: "#111111",
+    });
+  });
+
+  test("resolveScheme follows the system only in system mode", () => {
+    expect(resolveScheme("system", true)).toBe("dark");
+    expect(resolveScheme("system", false)).toBe("light");
+    expect(resolveScheme("light", true)).toBe("light");
+    expect(resolveScheme("dark", false)).toBe("dark");
+  });
+
+  test("nextTheme cycles system → light → dark → system", () => {
+    expect(nextTheme("system")).toBe("light");
+    expect(nextTheme("light")).toBe("dark");
+    expect(nextTheme("dark")).toBe("system");
+  });
+
+  test("default light and dark palettes are readable and distinct", () => {
+    const light = schemeColors(DEFAULT_SETTINGS, "light");
+    const dark = schemeColors(DEFAULT_SETTINGS, "dark");
+    expect(light.digitColor).not.toBe(light.bgColor);
+    expect(dark.digitColor).not.toBe(dark.bgColor);
+    expect(light.bgColor).not.toBe(dark.bgColor);
+  });
+
+  test("withSchemeColors edits one palette and leaves the other untouched", () => {
+    const pair = { digitColor: "#ff0000", bgColor: "#00ff00" };
+    const s = withSchemeColors(DEFAULT_SETTINGS, "light", pair);
+    expect(schemeColors(s, "light")).toEqual(pair);
+    expect(schemeColors(s, "dark")).toEqual(schemeColors(DEFAULT_SETTINGS, "dark"));
+  });
+
+  test("swapColors only swaps the active scheme's palette", () => {
+    const s = swapColors(DEFAULT_SETTINGS, "light");
+    expect(schemeColors(s, "light")).toEqual({ digitColor: "#ffffff", bgColor: "#000000" });
+    expect(schemeColors(s, "dark")).toEqual(schemeColors(DEFAULT_SETTINGS, "dark"));
+  });
+
+  test("light colors are validated like dark ones", () => {
+    const s = parseSettings({ lightDigitColor: "blue", lightBgColor: "#EEE" });
+    expect(s.lightDigitColor).toBe(DEFAULT_SETTINGS.lightDigitColor);
+    expect(s.lightBgColor).toBe("#EEE");
   });
 });
 

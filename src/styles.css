@@ -1,27 +1,66 @@
-/* GiantChrono styles. Theme values are driven by CSS custom properties set
-   from user settings (DSP-003..DSP-005). */
+/* GiantChrono styles.
+ *
+ * Visual style shared with Progressive Web Office and QRShare: same palette,
+ * typography, header bar, buttons, dialogs and focus ring (UI-001). The giant
+ * display area keeps the user's own digit/background colors (DSP-003..DSP-005).
+ */
 
 :root {
-  --digit-color: #ffffff;
-  --bg-color: #000000;
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --text: #1c2430;
+  --muted: #5a6577;
+  --border: #d6dce5;
+  --accent: #1f5fbf;
+  --accent-hover: #194f9f;
+  --accent-contrast: #ffffff;
+  --focus: #ffb400;
+  --sel: rgba(31, 95, 191, 0.15);
+  --radius: 8px;
+  --radius-sm: 6px;
+  --header-h: 48px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  color-scheme: light dark;
+
+  /* Display area, set from user settings (DSP-003..DSP-005). */
+  --digit-color: #1c2430;
+  --bg-color: #f4f6f9;
   --digit-font: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --size-factor: 1; /* sizePct / 100 (DSP-005) */
   --digit-spacing: 0.02em; /* letterSpacing / 100 em (DSP-005) */
-  --accent: #2f6fed;
-  /* Dialog/toast chrome, switched with the active scheme (DSP-011). */
-  color-scheme: dark;
-  --panel-bg: #16161a;
-  --panel-fg: #f5f5f7;
-  --panel-border: #3a3a40;
-  --link-color: #7ba3f2;
 }
 
-:root[data-scheme="light"] {
-  color-scheme: light;
-  --panel-bg: #f5f5f7;
-  --panel-fg: #16161a;
-  --panel-border: #c7c7cc;
-  --link-color: #1f5fd6;
+/* The system preference applies unless data-theme forces one (DSP-011). */
+:root[data-theme="light"] { color-scheme: light; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14181f;
+    --surface: #1d232c;
+    --text: #e6eaf0;
+    --muted: #9aa5b5;
+    --border: #333c49;
+    --accent: #6ea2f5;
+    --accent-hover: #8db6f7;
+    --accent-contrast: #0b1220;
+    --sel: rgba(110, 162, 245, 0.25);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #14181f;
+  --surface: #1d232c;
+  --text: #e6eaf0;
+  --muted: #9aa5b5;
+  --border: #333c49;
+  --accent: #6ea2f5;
+  --accent-hover: #8db6f7;
+  --accent-contrast: #0b1220;
+  --sel: rgba(110, 162, 245, 0.25);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
 }
 
 * {
@@ -33,52 +72,125 @@ body {
   margin: 0;
   height: 100%;
   overflow: hidden;
-  background: var(--bg-color);
-  color: var(--digit-color);
-  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
   -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+select,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  min-height: 32px;
+  cursor: pointer;
+}
+
+button:hover,
+select:hover {
+  border-color: var(--accent);
+}
+
+button.primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: var(--accent);
+}
+
+button.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 #app {
   display: flex;
   flex-direction: column;
   height: 100dvh;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
-    env(safe-area-inset-left);
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-/* ---------- Top bar ---------- */
+/* ---------- Header bar ---------- */
 
 #topbar {
   display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
-  padding: 0.5rem;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--header-h);
+  padding: calc(6px + env(safe-area-inset-top)) 12px 6px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 
-#topbar button {
-  min-width: 3rem;
-  min-height: 3rem;
-  font-size: 1.1rem;
-  background: transparent;
-  color: var(--digit-color);
-  border: 1px solid color-mix(in srgb, var(--digit-color) 35%, transparent);
-  border-radius: 0.6rem;
-  cursor: pointer;
-  opacity: 0.85;
+.brand {
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
 
-#topbar button:hover,
-#topbar button:focus-visible {
-  opacity: 1;
+.app-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .app-name {
+    display: none;
+  }
+}
+
+.nav-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-inline-start: auto;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 1.05rem;
+  transition: border-color 0.15s;
+}
+
+#btn-view {
+  min-height: 32px;
 }
 
 /* ---------- Display area (swipe/tap zone) ---------- */
 
 #display {
   position: relative;
+  background: var(--bg-color);
+  color: var(--digit-color);
   flex: 1;
   min-height: 0;
   display: flex;
@@ -190,7 +302,7 @@ body {
 
 .multi-card {
   border: 1px solid color-mix(in srgb, var(--digit-color) 25%, transparent);
-  border-radius: 0.8rem;
+  border-radius: var(--radius);
   padding: 0.75rem;
   display: flex;
   flex-direction: column;
@@ -214,7 +326,7 @@ body {
   min-height: 2.75rem;
   min-width: 5rem;
   font-size: 1rem;
-  border-radius: 0.6rem;
+  border-radius: var(--radius-sm);
   border: 1px solid color-mix(in srgb, var(--digit-color) 35%, transparent);
   background: transparent;
   color: var(--digit-color);
@@ -271,6 +383,10 @@ body {
   text-align: center;
 }
 
+/* ---------- Main controls (CMD-001: large touch targets) ---------- */
+
+/* ---------- Lock mode (LCK-002) ---------- */
+
 body.locked #controls button,
 body.locked #topbar button:not(#btn-lock) {
   opacity: 0.35;
@@ -280,9 +396,11 @@ body.locked #topbar button:not(#btn-lock) {
 
 #controls {
   display: flex;
-  gap: 0.75rem;
-  padding: 0.75rem;
+  gap: 12px;
+  padding: 12px;
   justify-content: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
 }
 
 #controls button {
@@ -291,31 +409,14 @@ body.locked #topbar button:not(#btn-lock) {
   min-height: 4.5rem;
   font-size: 1.5rem;
   font-weight: 600;
-  border-radius: 1rem;
-  border: 1px solid color-mix(in srgb, var(--digit-color) 35%, transparent);
-  background: color-mix(in srgb, var(--digit-color) 8%, transparent);
-  color: var(--digit-color);
-  cursor: pointer;
-}
-
-#controls button.primary,
-#help-dialog button.primary,
-#settings-dialog button.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #ffffff;
+  border-radius: var(--radius);
 }
 
 #controls button:active {
   transform: scale(0.97);
 }
 
-button:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* ---------- Update toast (PWA-005) ---------- */
+/* ---------- Update banner (PWA-005) ---------- */
 
 #update-toast {
   position: fixed;
@@ -323,48 +424,46 @@ button:focus-visible {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.75rem;
+  gap: 8px;
   align-items: center;
-  background: var(--panel-bg);
-  color: var(--panel-fg);
-  padding: 0.6rem 1rem;
-  border-radius: 0.8rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: var(--radius);
   z-index: 30;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 40%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-#update-toast button {
-  background: var(--accent);
-  border: none;
-  color: #ffffff;
-  padding: 0.4rem 0.9rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
+/* ---------- Dialogs, as in Progressive Web Office and QRShare ---------- */
 
-/* ---------- Settings and help dialogs ---------- */
-
-#help-dialog,
-#settings-dialog {
-  border: none;
-  border-radius: 1rem;
-  max-width: min(26rem, 92vw);
+.dialog {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
   width: 100%;
-  max-height: 85dvh;
-  overflow-y: auto;
-  background: var(--panel-bg);
-  color: var(--panel-fg);
-  padding: 1.25rem;
+  max-width: min(520px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 20px;
+  overflow: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  -webkit-user-select: text;
+  user-select: text;
 }
 
-#help-dialog::backdrop,
-#settings-dialog::backdrop {
-  background: rgb(0 0 0 / 55%);
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
 }
 
-#help-dialog h2,
-#settings-dialog h2 {
-  margin-top: 0;
+.dialog h2 {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+}
+
+.dialog a {
+  color: var(--accent);
 }
 
 /* ---------- Help dialog (HLP-001, HLP-002) ---------- */
@@ -382,65 +481,87 @@ button:focus-visible {
 #help-dialog li,
 #help-dialog p {
   font-size: 0.95rem;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 #help-dialog kbd {
-  border: 1px solid var(--panel-border);
-  border-radius: 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
   padding: 0 0.35rem;
-  font-family: inherit;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
 }
 
-#help-dialog a {
-  color: var(--link-color);
-}
+/* ---------- Settings dialog ---------- */
 
 #settings-dialog fieldset {
-  border: 1px solid var(--panel-border);
-  border-radius: 0.6rem;
-  margin-bottom: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 0 0 12px;
+  padding: 8px 12px 12px;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 8px;
+}
+
+#settings-dialog legend {
+  padding: 0 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 #settings-dialog label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  gap: 12px;
   font-size: 0.95rem;
 }
 
 #settings-dialog input[type="range"] {
   flex: 1;
   max-width: 55%;
+  accent-color: var(--accent);
 }
 
-#help-dialog menu,
-#settings-dialog menu {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0;
-  margin: 0;
+#settings-dialog input[type="checkbox"] {
+  accent-color: var(--accent);
 }
 
-#help-dialog menu {
-  justify-content: flex-end;
+#settings-dialog input[type="number"] {
+  width: 6rem;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
 }
 
-#btn-swap-colors,
-#help-dialog menu button,
-#settings-dialog menu button {
-  min-height: 2.75rem;
-  padding: 0 1rem;
-  border-radius: 0.6rem;
-  border: 1px solid var(--panel-border);
-  background: transparent;
-  color: inherit;
+#settings-dialog input[type="color"] {
+  width: 3rem;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
   cursor: pointer;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+#settings-dialog .dialog-actions {
+  justify-content: space-between;
 }
 
 [hidden] {

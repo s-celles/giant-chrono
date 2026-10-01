@@ -2,11 +2,15 @@
 
 Requirement IDs (e.g. `DSP-001`) are stable identifiers used for traceability in code comments and tests.
 
+## Visual style (UI)
+
+GiantChrono shares the visual style of [Progressive Web Office](https://github.com/s-celles/progressive-web-office) and [QRShare](https://github.com/s-celles/QRShare): the same light and dark palette, a header bar with the app badge and icon buttons, the same buttons, dialogs and yellow focus ring (UI-001). The theme toggle uses the same ◐ / ☀ / ☾ icons and the same `data-theme` mechanism.
+
 ## Giant display and theme (DSP)
 
 The active value — stopwatch or clock — fills the available screen area; digit size is recomputed on every resize or rotation (DSP-001, DSP-002). The **Settings** dialog (⚙) provides:
 
-- Theme: **System** (follows the OS light/dark preference, live), **Light**, or **Dark** — also cycled with the 🌓/☀️/🌙 top-bar button. Each theme has its own digit/background colors, and the dialogs follow the active theme (DSP-011)
+- Theme: **System** (follows the OS light/dark preference, live), **Light**, or **Dark** — also cycled with the ◐ / ☀ / ☾ header button. Each theme has its own digit/background colors, and the dialogs follow the active theme (DSP-011)
 - Digit color and background color of the active theme (DSP-003), with a **⇄ Swap colors** button to invert them in one tap — e.g. for sunlight readability (DSP-010)
 - Font: monospace, sans-serif, or serif — local system font stacks, no network request (DSP-004)
 - Relative size (20–100 %) and letter spacing (DSP-005)
@@ -37,7 +41,7 @@ Format changes apply immediately and persist (FMT-005).
 
 ## Views and commands (NAV, CMD)
 
-- Swipe vertically on the display to switch between stopwatch and clock (NAV-001); the top-left button does the same without a gesture (NAV-004). The stopwatch keeps counting in the background (NAV-002) and the last view is restored at startup (NAV-003).
+- Swipe vertically on the display to switch between stopwatch and clock (NAV-001); the Clock / Stopwatch button in the header does the same without a gesture (NAV-004). The stopwatch keeps counting in the background (NAV-002) and the last view is restored at startup (NAV-003).
 - Large on-screen buttons: Reset, Start/Pause, Lap (CMD-001).
 - A tap on the display (outside buttons) triggers a configurable secondary command — Lap by default, Start/Pause, or disabled (CMD-002, CMD-003).
 - Hardware volume keys are not exposed by web browsers (CTR-002); all functions remain fully available through the touch controls (CMD-005).

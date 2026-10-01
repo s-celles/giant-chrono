@@ -161,7 +161,8 @@ describe("themes (DSP-011: system / light / dark)", () => {
 
   test("swapColors only swaps the active scheme's palette", () => {
     const s = swapColors(DEFAULT_SETTINGS, "light");
-    expect(schemeColors(s, "light")).toEqual({ digitColor: "#ffffff", bgColor: "#000000" });
+    const light = schemeColors(DEFAULT_SETTINGS, "light");
+    expect(schemeColors(s, "light")).toEqual({ digitColor: light.bgColor, bgColor: light.digitColor });
     expect(schemeColors(s, "dark")).toEqual(schemeColors(DEFAULT_SETTINGS, "dark"));
   });
 

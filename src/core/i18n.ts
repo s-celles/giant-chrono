@@ -25,7 +25,7 @@ const en = {
   "aria.lockLocked": "Locked — hold to unlock",
   "aria.help": "Help and about",
   "aria.settings": "Open settings",
-  "aria.theme": "Change theme — current:",
+  "aria.theme": "Theme:",
   "aria.stopwatch": "Stopwatch",
   "aria.clock": "Clock",
   "aria.analogClock": "Analog clock",
@@ -119,7 +119,7 @@ const en = {
   "help.sw2": "A tap on the display triggers the secondary command chosen in Settings (Lap by default).",
   "help.sw3": "Set a <strong>start delay</strong> in Settings for an audible 3-2-1 countdown before the start.",
   "help.v1":
-    "Swipe vertically on the display — or use the top-left button — to switch between stopwatch and clock.",
+    "Swipe vertically on the display — or use the Clock / Stopwatch button in the header — to switch between stopwatch and clock.",
   "help.v2": "Tap 🔓 to lock the controls against accidental touches; hold anywhere for one second to unlock.",
   "help.v3": "Digits stack one group per line in portrait; force a layout in Settings.",
   "help.kb":
@@ -140,7 +140,7 @@ const fr: Record<MsgKey, string> = {
   "aria.lockLocked": "Verrouillé — maintenir pour déverrouiller",
   "aria.help": "Aide et à-propos",
   "aria.settings": "Ouvrir les réglages",
-  "aria.theme": "Changer de thème — actuel :",
+  "aria.theme": "Thème :",
   "aria.stopwatch": "Chronomètre",
   "aria.clock": "Horloge",
   "aria.analogClock": "Horloge analogique",
@@ -229,7 +229,7 @@ const fr: Record<MsgKey, string> = {
   "help.sw2": "Un toucher sur l'écran déclenche la commande secondaire choisie dans les réglages (Tour par défaut).",
   "help.sw3": "Réglez un <strong>départ différé</strong> pour un décompte sonore 3-2-1 avant le départ.",
   "help.v1":
-    "Glissez verticalement sur l'écran — ou utilisez le bouton en haut à gauche — pour basculer entre chronomètre et horloge.",
+    "Glissez verticalement sur l'écran — ou utilisez le bouton Horloge / Chrono de l'en-tête — pour basculer entre chronomètre et horloge.",
   "help.v2": "Touchez 🔓 pour verrouiller contre les commandes accidentelles ; maintenez une seconde n'importe où pour déverrouiller.",
   "help.v3": "Les chiffres s'empilent un groupe par ligne en portrait ; forcez une disposition dans les réglages.",
   "help.kb":

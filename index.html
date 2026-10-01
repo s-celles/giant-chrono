@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="GiantChrono — offline stopwatch and clock with giant digits" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" />
     <title>GiantChrono</title>
     <!-- Manifest and icon links are injected by scripts/build.ts: those files
          are generated at build time and must not go through the bundler. -->
@@ -13,12 +14,16 @@
   <body>
     <main id="app">
       <header id="topbar">
-        <button id="btn-view" type="button" data-i18n-aria="aria.switchView">Clock</button>
-        <button id="btn-sound" type="button" data-i18n-aria="aria.toggleSound" aria-pressed="true">🔊</button>
-        <button id="btn-lock" type="button" data-i18n-aria="aria.lock">🔓</button>
-        <button id="btn-theme" type="button" aria-label="Theme">🌓</button>
-        <button id="btn-help" type="button" data-i18n-aria="aria.help">?</button>
-        <button id="btn-settings" type="button" data-i18n-aria="aria.settings">⚙</button>
+        <span class="brand" aria-hidden="true">GC</span>
+        <span class="app-name">GiantChrono</span>
+        <div class="nav-actions">
+          <button id="btn-view" type="button" data-i18n-aria="aria.switchView">Clock</button>
+          <button id="btn-sound" class="icon-btn" type="button" data-i18n-aria="aria.toggleSound" aria-pressed="true">🔊</button>
+          <button id="btn-lock" class="icon-btn" type="button" data-i18n-aria="aria.lock">🔓</button>
+          <button id="btn-theme" class="icon-btn theme-toggle" type="button" aria-label="Theme">◐</button>
+          <button id="btn-help" class="icon-btn" type="button" data-i18n-aria="aria.help">?</button>
+          <button id="btn-settings" class="icon-btn" type="button" data-i18n-aria="aria.settings">⚙</button>
+        </div>
       </header>
 
       <div id="display" role="presentation">
@@ -61,7 +66,7 @@
         <button id="btn-update" type="button" data-i18n="update.reload">Reload</button>
       </div>
 
-      <dialog id="help-dialog" data-i18n-aria="aria.help" aria-label="Help and about">
+      <dialog id="help-dialog" class="dialog" data-i18n-aria="aria.help" aria-label="Help and about">
         <div class="help-content">
           <h2>GiantChrono</h2>
 
@@ -77,7 +82,7 @@
           <section>
             <h3 data-i18n="help.views">Views and gestures</h3>
             <ul>
-              <li data-i18n="help.v1">Swipe vertically on the display — or use the top-left button — to switch between stopwatch and clock.</li>
+              <li data-i18n="help.v1">Swipe vertically on the display — or use the Clock / Stopwatch button in the header — to switch between stopwatch and clock.</li>
               <li data-i18n="help.v2">Tap 🔓 to lock the controls against accidental touches; hold anywhere for one second to unlock.</li>
               <li data-i18n="help.v3">Digits stack one group per line in portrait; force a layout in Settings.</li>
             </ul>
@@ -101,14 +106,14 @@
           </section>
 
           <form method="dialog">
-            <menu>
+            <menu class="dialog-actions">
               <button value="close" class="primary" data-i18n="st.close">Close</button>
             </menu>
           </form>
         </div>
       </dialog>
 
-      <dialog id="settings-dialog" data-i18n-aria="st.title" aria-label="Settings">
+      <dialog id="settings-dialog" class="dialog" data-i18n-aria="st.title" aria-label="Settings">
         <form method="dialog" id="settings-form">
           <h2 data-i18n="st.title">Settings</h2>
 
@@ -206,7 +211,7 @@
             <label><input type="checkbox" name="keepAwake" /> <span data-i18n="st.keepAwake">Keep screen awake</span></label>
           </fieldset>
 
-          <menu>
+          <menu class="dialog-actions">
             <button id="btn-defaults" type="button" data-i18n="st.defaults">Restore defaults</button>
             <button value="close" class="primary" data-i18n="st.close">Close</button>
           </menu>

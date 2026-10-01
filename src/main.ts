@@ -133,7 +133,8 @@ function activeScheme(): ColorScheme {
 function applyTheme(): void {
   const scheme = activeScheme();
   const colors = schemeColors(settings, scheme);
-  document.documentElement.dataset.scheme = scheme;
+  // Same mechanism as Progressive Web Office and QRShare: data-theme drives the palette.
+  document.documentElement.dataset.theme = scheme;
   const root = document.documentElement.style;
   root.setProperty("--digit-color", colors.digitColor);
   root.setProperty("--bg-color", colors.bgColor);
@@ -142,17 +143,18 @@ function applyTheme(): void {
   root.setProperty("--digit-spacing", `${settings.letterSpacing / 100}em`);
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", colors.bgColor);
+    ?.setAttribute("content", getComputedStyle(document.documentElement).getPropertyValue("--surface").trim());
   syncThemeChrome();
 }
 
-const THEME_ICONS = { system: "🌓", light: "☀️", dark: "🌙" } as const;
+// Same icons as Progressive Web Office and QRShare.
+const THEME_ICONS = { system: "◐", light: "☀", dark: "☾" } as const;
 
 function syncThemeChrome(): void {
   btnTheme.textContent = THEME_ICONS[settings.theme];
   const label = { system: t("opt.themeSystem"), light: t("opt.themeLight"), dark: t("opt.themeDark") };
   btnTheme.setAttribute("aria-label", `${t("aria.theme")} ${label[settings.theme]}`);
-  btnTheme.title = label[settings.theme];
+  btnTheme.title = btnTheme.getAttribute("aria-label") ?? "";
 }
 
 // Follow live OS theme changes while in "system" mode (DSP-011).

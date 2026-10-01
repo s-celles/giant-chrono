@@ -70,10 +70,11 @@ export const FONT_STACKS: Record<FontId, string> = {
 
 export const DEFAULT_SETTINGS: Settings = {
   theme: "system",
-  digitColor: "#ffffff",
-  bgColor: "#000000",
-  lightDigitColor: "#000000",
-  lightBgColor: "#ffffff",
+  // Same palette as Progressive Web Office and QRShare (text on background).
+  digitColor: "#e6eaf0",
+  bgColor: "#14181f",
+  lightDigitColor: "#1c2430",
+  lightBgColor: "#f4f6f9",
   font: "system-mono",
   sizePct: 100,
   letterSpacing: 2,

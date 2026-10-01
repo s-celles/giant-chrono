@@ -8,6 +8,20 @@
   --size-factor: 1; /* sizePct / 100 (DSP-005) */
   --digit-spacing: 0.02em; /* letterSpacing / 100 em (DSP-005) */
   --accent: #2f6fed;
+  /* Dialog/toast chrome, switched with the active scheme (DSP-011). */
+  color-scheme: dark;
+  --panel-bg: #16161a;
+  --panel-fg: #f5f5f7;
+  --panel-border: #3a3a40;
+  --link-color: #7ba3f2;
+}
+
+:root[data-scheme="light"] {
+  color-scheme: light;
+  --panel-bg: #f5f5f7;
+  --panel-fg: #16161a;
+  --panel-border: #c7c7cc;
+  --link-color: #1f5fd6;
 }
 
 * {
@@ -311,8 +325,8 @@ button:focus-visible {
   display: flex;
   gap: 0.75rem;
   align-items: center;
-  background: #1c1c1e;
-  color: #ffffff;
+  background: var(--panel-bg);
+  color: var(--panel-fg);
   padding: 0.6rem 1rem;
   border-radius: 0.8rem;
   z-index: 30;
@@ -338,8 +352,8 @@ button:focus-visible {
   width: 100%;
   max-height: 85dvh;
   overflow-y: auto;
-  background: #16161a;
-  color: #f5f5f7;
+  background: var(--panel-bg);
+  color: var(--panel-fg);
   padding: 1.25rem;
 }
 
@@ -372,18 +386,18 @@ button:focus-visible {
 }
 
 #help-dialog kbd {
-  border: 1px solid #3a3a40;
+  border: 1px solid var(--panel-border);
   border-radius: 0.3rem;
   padding: 0 0.35rem;
   font-family: inherit;
 }
 
 #help-dialog a {
-  color: #7ba3f2;
+  color: var(--link-color);
 }
 
 #settings-dialog fieldset {
-  border: 1px solid #3a3a40;
+  border: 1px solid var(--panel-border);
   border-radius: 0.6rem;
   margin-bottom: 0.9rem;
   display: flex;
@@ -423,7 +437,7 @@ button:focus-visible {
   min-height: 2.75rem;
   padding: 0 1rem;
   border-radius: 0.6rem;
-  border: 1px solid #3a3a40;
+  border: 1px solid var(--panel-border);
   background: transparent;
   color: inherit;
   cursor: pointer;

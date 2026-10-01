@@ -6,7 +6,8 @@ Requirement IDs (e.g. `DSP-001`) are stable identifiers used for traceability in
 
 The active value — stopwatch or clock — fills the available screen area; digit size is recomputed on every resize or rotation (DSP-001, DSP-002). The **Settings** dialog (⚙) provides:
 
-- Digit color and background color (DSP-003), with a **⇄ Swap colors** button to invert them in one tap — e.g. for sunlight readability (DSP-010)
+- Theme: **System** (follows the OS light/dark preference, live), **Light**, or **Dark** — also cycled with the 🌓/☀️/🌙 top-bar button. Each theme has its own digit/background colors, and the dialogs follow the active theme (DSP-011)
+- Digit color and background color of the active theme (DSP-003), with a **⇄ Swap colors** button to invert them in one tap — e.g. for sunlight readability (DSP-010)
 - Font: monospace, sans-serif, or serif — local system font stacks, no network request (DSP-004)
 - Relative size (20–100 %) and letter spacing (DSP-005)
 - Stopwatch format: hours automatic/always/never, precision seconds/tenths/hundredths (DSP-006)

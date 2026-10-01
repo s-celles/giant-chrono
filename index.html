@@ -122,20 +122,32 @@
               <p class="hint" data-i18n="about.tagline">Giant stopwatch and clock, fully offline.</p>
             </div>
           </div>
-          <dl class="about-facts">
-            <dt data-i18n="about.version">Version</dt>
-            <dd><a id="about-version" href="https://github.com/s-celles/giant-chrono/blob/main/CHANGELOG.md" target="_blank" rel="noopener"></a></dd>
-            <dt data-i18n="about.commit">Commit</dt>
-            <dd id="about-commit" class="mono"></dd>
-            <dt data-i18n="about.built">Built</dt>
-            <dd id="about-built"></dd>
-            <dt data-i18n="about.license">License</dt>
-            <dd><a href="https://github.com/s-celles/giant-chrono/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a></dd>
-            <dt data-i18n="about.installed">Installed app</dt>
-            <dd id="about-installed"></dd>
-            <dt data-i18n="about.offline">Works offline</dt>
-            <dd id="about-offline"></dd>
-          </dl>
+          <div class="about-body">
+            <dl class="about-facts">
+              <dt data-i18n="about.version">Version</dt>
+              <dd><a id="about-version" href="https://github.com/s-celles/giant-chrono/blob/main/CHANGELOG.md" target="_blank" rel="noopener"></a></dd>
+              <dt data-i18n="about.commit">Commit</dt>
+              <dd id="about-commit" class="mono"></dd>
+              <dt data-i18n="about.built">Built</dt>
+              <dd id="about-built"></dd>
+              <dt data-i18n="about.license">License</dt>
+              <dd><a href="https://github.com/s-celles/giant-chrono/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a></dd>
+              <dt data-i18n="about.installed">Installed app</dt>
+              <dd id="about-installed"></dd>
+              <dt data-i18n="about.offline">Works offline</dt>
+              <dd id="about-offline"></dd>
+            </dl>
+            <figure class="about-qr-figure">
+              <!-- A click enlarges it, to scan from a distance or with a poor camera (ABT-002). -->
+              <button id="btn-qr-zoom" class="qr-zoom" type="button" data-i18n-aria="qr.enlarge">
+                <img id="about-qr" class="about-qr" data-i18n-alt="about.qrAlt" alt="" width="160" height="160" />
+              </button>
+              <figcaption class="hint">
+                <span data-i18n="about.scanText">Scan to open GiantChrono on another device</span><br />
+                <span id="about-url" class="mono"></span>
+              </figcaption>
+            </figure>
+          </div>
           <ul class="about-links">
             <li><a href="https://github.com/s-celles/giant-chrono/tree/main/docs" target="_blank" rel="noopener" data-i18n="about.docs">Documentation</a></li>
             <li><a href="https://github.com/s-celles/giant-chrono" target="_blank" rel="noopener" data-i18n="about.source">Source code</a></li>
@@ -149,6 +161,13 @@
           <button id="btn-copy-details" type="button" data-i18n="about.copyDetails" title="">Copy details</button>
           <button id="btn-about-close" type="button" class="primary" data-i18n="st.close" autofocus>Close</button>
         </div>
+      </dialog>
+
+      <!-- QR code full screen, easy to scan from a distance (ABT-002). -->
+      <dialog id="qr-full" class="qr-full" data-i18n-aria="qr.fullScreen" aria-label="QR code, full screen">
+        <img id="qr-full-image" class="qr-full-image" data-i18n-alt="about.qrAlt" alt="" />
+        <p id="qr-full-text" class="qr-full-text"></p>
+        <button id="btn-qr-close" type="button" class="primary" data-i18n="st.close">Close</button>
       </dialog>
 
       <dialog id="settings-dialog" class="dialog" data-i18n-aria="st.title" aria-label="Settings">

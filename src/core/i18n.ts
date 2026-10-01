@@ -131,6 +131,11 @@ const en = {
   "about.copyDetails": "Copy details",
   "about.copyDetailsTitle": "Copy version and browser details, to paste into a bug report",
   "about.copied": "Copied",
+  "about.qrAlt": "QR code of the GiantChrono address",
+  "about.scanText": "Scan to open GiantChrono on another device",
+  "qr.enlarge": "Enlarge the QR code",
+  "qr.enlargeTitle": "Show the QR code full screen, to scan it from a distance",
+  "qr.fullScreen": "QR code, full screen",
 
   // Help dialog (html entries may contain trusted inline markup)
   "help.stopwatch": "Stopwatch",
@@ -263,6 +268,11 @@ const fr: Record<MsgKey, string> = {
   "about.copyDetails": "Copier les détails",
   "about.copyDetailsTitle": "Copier la version et les détails du navigateur, à coller dans un rapport de bug",
   "about.copied": "Copié",
+  "about.qrAlt": "QR code de l'adresse de GiantChrono",
+  "about.scanText": "Scannez pour ouvrir GiantChrono sur un autre appareil",
+  "qr.enlarge": "Agrandir le QR code",
+  "qr.enlargeTitle": "Afficher le QR code en plein écran, pour le scanner de loin",
+  "qr.fullScreen": "QR code en plein écran",
 
   "help.stopwatch": "Chronomètre",
   "help.views": "Vues et gestes",

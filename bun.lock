@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "giant-chrono-pwa",
+      "dependencies": {
+        "lean-qr": "^2.7.4",
+      },
       "devDependencies": {
         "@types/bun": "^1.2.0",
         "typescript": "^6.0.3",
@@ -16,6 +19,8 @@
     "@types/node": ["@types/node@26.1.0", "", { "dependencies": { "undici-types": "~8.3.0" } }, "sha512-O0A1G3xPGy4w7AgQdAQYUlQ+BKk2Oovw8eRpofyp5KdBZULnbe+WqaOVNrm705SHphCiG4XHsACrSmPu1f+Kgw=="],
 
     "bun-types": ["bun-types@1.3.14", "", { "dependencies": { "@types/node": "*" } }, "sha512-4N0ig0fEomHt5R0KCFWjovxow98rIoRwKolrYdCcknNwMekCXRnWEUvgu5soYV8QXtVsrUD8B95MBOZGPvr6KQ=="],
+
+    "lean-qr": ["lean-qr@2.7.4", "", { "bin": { "lean-qr": "cli.mjs" } }, "sha512-tlMPFfqhAAZN7+j/djRSvl/2+AYT2+7RRuyq8bvcbV8gMiENiscquQ9WTfCSyeEdxsVaEB+tU7e9nFZC63BFnQ=="],
 
     "typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 

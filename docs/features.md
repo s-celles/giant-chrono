@@ -69,6 +69,8 @@ The **?** button in the top bar opens an offline help dialog summarizing the sto
 
 The header shows the version and short commit of the build (e.g. `v0.1.0 (4badca9)`), as Progressive Web Office and QRShare do; clicking it opens the **About** window: version (linked to the changelog), commit (linked to GitHub), build date, license, whether the app is installed and works offline, links to the documentation, source code, changelog and issue tracker, and a **Copy details** button that copies these facts plus the browser's user agent for a bug report (ABT-001). The build date is the commit date, so the same sources still give the same build version (BLD-004).
 
+The About window also shows a **QR code of the app's address**, to open GiantChrono on another device; clicking it shows the code full screen, to scan from a distance (click, Escape or **Close** to leave). It is generated on the device with [lean-qr](https://github.com/davidje13/lean-qr), the same library as Progressive Web Office and QRShare, so it works offline (ABT-002).
+
 ## Persistence (PST)
 
 Settings, the 12/24 h choice, delay, options, the active view, and full stopwatch state (start timestamp, paused value, laps) are stored locally in `localStorage` (PST-001, PST-002). Corrupted or missing data is replaced by defaults without crashing (PST-003).

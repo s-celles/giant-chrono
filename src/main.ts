@@ -2,6 +2,7 @@
 
 import { BUILD, knownCommit, shortCommit, versionLabel } from "./core/build-info";
 import { countdownStatus } from "./core/countdown";
+import { qrDataUrl } from "./core/qr";
 import { defaultHour12, formatClock, formatElapsed, lapRows, stackTime } from "./core/format";
 import { MESSAGES, resolveLang, type Lang, type MsgKey } from "./core/i18n";
 import {
@@ -83,6 +84,9 @@ function applyI18n(): void {
   for (const el of document.querySelectorAll<HTMLElement>("[data-i18n-aria]")) {
     el.setAttribute("aria-label", t(el.dataset.i18nAria as MsgKey));
   }
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n-alt]")) {
+    el.setAttribute("alt", t(el.dataset.i18nAlt as MsgKey));
+  }
 }
 
 // ---------- Elements ----------
@@ -116,6 +120,7 @@ const helpDialog = $<HTMLDialogElement>("help-dialog");
 const aboutDialog = $<HTMLDialogElement>("about-dialog");
 const btnVersion = $<HTMLButtonElement>("btn-version");
 const aboutStatus = $("about-status");
+const qrFull = $<HTMLDialogElement>("qr-full");
 const settingsDialog = $<HTMLDialogElement>("settings-dialog");
 const settingsForm = $<HTMLFormElement>("settings-form");
 const updateToast = $("update-toast");
@@ -611,7 +616,7 @@ btnLock.addEventListener("pointerup", () => {
 // ---------- Keyboard (NFR-004) ----------
 
 window.addEventListener("keydown", (e) => {
-  if (settingsDialog.open || helpDialog.open || aboutDialog.open) return;
+  if (settingsDialog.open || helpDialog.open || aboutDialog.open || qrFull.open) return;
   const target = e.target as HTMLElement;
   if (target.tagName === "INPUT" || target.tagName === "SELECT" || target.tagName === "TEXTAREA") return;
   switch (e.code) {
@@ -802,6 +807,14 @@ function openAbout(): void {
   $("about-built").textContent = buildDateText();
   $("about-installed").textContent = yesNo(installed());
   $("about-offline").textContent = yesNo(offlineReady());
+  // QR code of this very address, to open the app on another device (ABT-002).
+  const appUrl = location.origin + location.pathname;
+  const qr = qrDataUrl(appUrl);
+  $<HTMLImageElement>("about-qr").src = qr;
+  $<HTMLImageElement>("qr-full-image").src = qr;
+  $("about-url").textContent = appUrl;
+  $("qr-full-text").textContent = appUrl;
+  $("btn-qr-zoom").title = t("qr.enlargeTitle");
   aboutStatus.textContent = "";
   $("btn-copy-details").title = t("about.copyDetailsTitle");
   aboutDialog.showModal();
@@ -815,6 +828,15 @@ $("btn-help-about").addEventListener("click", () => {
   openAbout();
 });
 $("btn-about-close").addEventListener("click", () => aboutDialog.close());
+$("btn-qr-zoom").addEventListener("click", () => {
+  qrFull.showModal();
+  $("btn-qr-close").focus();
+});
+$("btn-qr-close").addEventListener("click", () => qrFull.close());
+// A click on the backdrop or on the code itself leaves the full screen view.
+qrFull.addEventListener("click", (e) => {
+  if (e.target === qrFull || e.target === $("qr-full-image")) qrFull.close();
+});
 $("btn-copy-details").addEventListener("click", () => {
   void navigator.clipboard?.writeText(debugReport()).then(
     () => (aboutStatus.textContent = t("about.copied")),

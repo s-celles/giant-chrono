@@ -109,6 +109,29 @@ const en = {
   "opt.themeLight": "Light",
   "opt.themeDark": "Dark",
 
+  // About window (ABT-001)
+  "about.title": "About",
+  "about.open": "Version and build — open the About window",
+  "about.openFull": "About GiantChrono…",
+  "about.tagline": "Giant stopwatch and clock, fully offline.",
+  "about.version": "Version",
+  "about.commit": "Commit",
+  "about.built": "Built",
+  "about.license": "License",
+  "about.installed": "Installed app",
+  "about.offline": "Works offline",
+  "about.language": "Language",
+  "about.yes": "Yes",
+  "about.no": "No",
+  "about.docs": "Documentation",
+  "about.source": "Source code",
+  "about.changelog": "Changelog",
+  "about.report": "Report an issue",
+  "about.privacy": "No ads, no tracking, no account: all data stays on your device.",
+  "about.copyDetails": "Copy details",
+  "about.copyDetailsTitle": "Copy version and browser details, to paste into a bug report",
+  "about.copied": "Copied",
+
   // Help dialog (html entries may contain trusted inline markup)
   "help.stopwatch": "Stopwatch",
   "help.views": "Views and gestures",
@@ -125,8 +148,6 @@ const en = {
   "help.kb":
     "<kbd>Space</kbd> start/pause · <kbd>L</kbd> lap · <kbd>R</kbd> reset · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> switch view",
   "help.about1": "Free, open source, offline-first. No ads, no tracking: all data stays on your device.",
-  "help.source": "Source code",
-  "help.docs": "Full documentation",
 } as const;
 
 export type MsgKey = keyof typeof en;
@@ -220,6 +241,29 @@ const fr: Record<MsgKey, string> = {
   "opt.themeLight": "Clair",
   "opt.themeDark": "Sombre",
 
+  // Fenêtre À propos (ABT-001)
+  "about.title": "À propos",
+  "about.open": "Version et build — ouvrir la fenêtre À propos",
+  "about.openFull": "À propos de GiantChrono…",
+  "about.tagline": "Chronomètre et horloge géants, entièrement hors ligne.",
+  "about.version": "Version",
+  "about.commit": "Commit",
+  "about.built": "Compilé le",
+  "about.license": "Licence",
+  "about.installed": "Application installée",
+  "about.offline": "Fonctionne hors ligne",
+  "about.language": "Langue",
+  "about.yes": "Oui",
+  "about.no": "Non",
+  "about.docs": "Documentation",
+  "about.source": "Code source",
+  "about.changelog": "Journal des modifications",
+  "about.report": "Signaler un problème",
+  "about.privacy": "Pas de publicité, pas de pistage, pas de compte : toutes les données restent sur votre appareil.",
+  "about.copyDetails": "Copier les détails",
+  "about.copyDetailsTitle": "Copier la version et les détails du navigateur, à coller dans un rapport de bug",
+  "about.copied": "Copié",
+
   "help.stopwatch": "Chronomètre",
   "help.views": "Vues et gestes",
   "help.keyboard": "Clavier",
@@ -236,8 +280,6 @@ const fr: Record<MsgKey, string> = {
     "<kbd>Espace</kbd> départ/pause · <kbd>L</kbd> tour · <kbd>R</kbd> zéro · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> changer de vue",
   "help.about1":
     "Libre, open source, 100 % hors-ligne. Sans publicité ni pistage : toutes les données restent sur votre appareil.",
-  "help.source": "Code source",
-  "help.docs": "Documentation complète",
 };
 
 export const MESSAGES: Record<Lang, Record<MsgKey, string>> = { en, fr };

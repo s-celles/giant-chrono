@@ -20,8 +20,24 @@ async function listFiles(dir: string): Promise<string[]> {
     .sort();
 }
 
+/** Output of a git command, or "" outside a git checkout. */
+function git(...args: string[]): string {
+  try {
+    const out = Bun.spawnSync(["git", ...args], { cwd: ROOT, stdout: "pipe", stderr: "ignore" });
+    return out.success ? out.stdout.toString().trim() : "";
+  } catch {
+    return "";
+  }
+}
+
 async function main(): Promise<void> {
   await rm(DIST, { recursive: true, force: true });
+
+  // Build info for the header and the About window (ABT-001). The date is the
+  // commit date, not "now", so the same sources still give the same version (BLD-004).
+  const commit = process.env.GITHUB_SHA || git("rev-parse", "HEAD");
+  const buildDate = git("log", "-1", "--format=%cI");
+  const pkg = (await Bun.file(join(ROOT, "package.json")).json()) as { version: string };
 
   // 1. Bundle the app from the HTML entrypoint (JS + CSS, hashed names).
   const result = await Bun.build({
@@ -29,7 +45,12 @@ async function main(): Promise<void> {
     outdir: DIST,
     minify: true,
     sourcemap: "none",
-    define: { "process.env.NODE_ENV": JSON.stringify("production") },
+    define: {
+      "process.env.NODE_ENV": JSON.stringify("production"),
+      __APP_VERSION__: JSON.stringify(pkg.version),
+      __GIT_COMMIT__: JSON.stringify(commit),
+      __BUILD_DATE__: JSON.stringify(buildDate),
+    },
   });
   if (!result.success) {
     for (const log of result.logs) console.error(log);

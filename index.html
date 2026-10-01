@@ -16,6 +16,7 @@
       <header id="topbar">
         <span class="brand" aria-hidden="true">GC</span>
         <span class="app-name">GiantChrono</span>
+        <button id="btn-version" class="app-version" type="button" data-i18n-aria="about.open">v—</button>
         <div class="nav-actions">
           <button id="btn-view" type="button" data-i18n-aria="aria.switchView">Clock</button>
           <button id="btn-sound" class="icon-btn" type="button" data-i18n-aria="aria.toggleSound" aria-pressed="true">🔊</button>
@@ -98,18 +99,55 @@
           <section>
             <h3 data-i18n="help.about">About</h3>
             <p data-i18n="help.about1">Free, open source, offline-first. No ads, no tracking: all data stays on your device.</p>
-            <p>
-              <a href="https://github.com/s-celles/giant-chrono" target="_blank" rel="noopener" data-i18n="help.source">Source code</a>
-              ·
-              <a href="https://github.com/s-celles/giant-chrono/tree/main/docs" target="_blank" rel="noopener" data-i18n="help.docs">Full documentation</a>
-            </p>
           </section>
 
           <form method="dialog">
             <menu class="dialog-actions">
+              <button id="btn-help-about" type="button" data-i18n="about.openFull">About GiantChrono…</button>
               <button value="close" class="primary" data-i18n="st.close">Close</button>
             </menu>
           </form>
+        </div>
+      </dialog>
+
+      <!-- About window, modelled on Progressive Web Office and QRShare (ABT-001). -->
+      <dialog id="about-dialog" class="dialog about-dialog" aria-labelledby="about-title">
+        <h2 id="about-title" data-i18n="about.title">About</h2>
+        <div class="about">
+          <div class="about-head">
+            <!-- src set at runtime: the icon is generated after bundling. -->
+            <img class="about-logo" id="about-logo" alt="" width="56" height="56" hidden />
+            <div>
+              <p class="about-name">GiantChrono</p>
+              <p class="hint" data-i18n="about.tagline">Giant stopwatch and clock, fully offline.</p>
+            </div>
+          </div>
+          <dl class="about-facts">
+            <dt data-i18n="about.version">Version</dt>
+            <dd><a id="about-version" href="https://github.com/s-celles/giant-chrono/blob/main/CHANGELOG.md" target="_blank" rel="noopener"></a></dd>
+            <dt data-i18n="about.commit">Commit</dt>
+            <dd id="about-commit" class="mono"></dd>
+            <dt data-i18n="about.built">Built</dt>
+            <dd id="about-built"></dd>
+            <dt data-i18n="about.license">License</dt>
+            <dd><a href="https://github.com/s-celles/giant-chrono/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a></dd>
+            <dt data-i18n="about.installed">Installed app</dt>
+            <dd id="about-installed"></dd>
+            <dt data-i18n="about.offline">Works offline</dt>
+            <dd id="about-offline"></dd>
+          </dl>
+          <ul class="about-links">
+            <li><a href="https://github.com/s-celles/giant-chrono/tree/main/docs" target="_blank" rel="noopener" data-i18n="about.docs">Documentation</a></li>
+            <li><a href="https://github.com/s-celles/giant-chrono" target="_blank" rel="noopener" data-i18n="about.source">Source code</a></li>
+            <li><a href="https://github.com/s-celles/giant-chrono/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="about.changelog">Changelog</a></li>
+            <li><a href="https://github.com/s-celles/giant-chrono/issues/new" target="_blank" rel="noopener" data-i18n="about.report">Report an issue</a></li>
+          </ul>
+          <p class="hint" data-i18n="about.privacy">No ads, no tracking, no account: all data stays on your device.</p>
+        </div>
+        <div class="dialog-actions">
+          <span id="about-status" class="hint" role="status"></span>
+          <button id="btn-copy-details" type="button" data-i18n="about.copyDetails" title="">Copy details</button>
+          <button id="btn-about-close" type="button" class="primary" data-i18n="st.close" autofocus>Close</button>
         </div>
       </dialog>
 

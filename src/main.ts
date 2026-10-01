@@ -1,5 +1,6 @@
 // GiantChrono application shell: state, views, commands and rendering.
 
+import { BUILD, knownCommit, shortCommit, versionLabel } from "./core/build-info";
 import { countdownStatus } from "./core/countdown";
 import { defaultHour12, formatClock, formatElapsed, lapRows, stackTime } from "./core/format";
 import { MESSAGES, resolveLang, type Lang, type MsgKey } from "./core/i18n";
@@ -112,6 +113,9 @@ const btnSettings = $<HTMLButtonElement>("btn-settings");
 const btnTheme = $<HTMLButtonElement>("btn-theme");
 const btnHelp = $<HTMLButtonElement>("btn-help");
 const helpDialog = $<HTMLDialogElement>("help-dialog");
+const aboutDialog = $<HTMLDialogElement>("about-dialog");
+const btnVersion = $<HTMLButtonElement>("btn-version");
+const aboutStatus = $("about-status");
 const settingsDialog = $<HTMLDialogElement>("settings-dialog");
 const settingsForm = $<HTMLFormElement>("settings-form");
 const updateToast = $("update-toast");
@@ -607,7 +611,7 @@ btnLock.addEventListener("pointerup", () => {
 // ---------- Keyboard (NFR-004) ----------
 
 window.addEventListener("keydown", (e) => {
-  if (settingsDialog.open || helpDialog.open) return;
+  if (settingsDialog.open || helpDialog.open || aboutDialog.open) return;
   const target = e.target as HTMLElement;
   if (target.tagName === "INPUT" || target.tagName === "SELECT" || target.tagName === "TEXTAREA") return;
   switch (e.code) {
@@ -720,6 +724,7 @@ function refreshLanguage(): void {
   syncViewChrome();
   syncLockChrome();
   syncThemeChrome();
+  syncVersionChrome();
   if (settings.multiEnabled) rebuildMultiCards();
 }
 
@@ -741,6 +746,86 @@ $("btn-defaults").addEventListener("click", () => {
   refreshLanguage();
 });
 
+// ---------- Version and About window (ABT-001) ----------
+
+const SOURCE_URL = "https://github.com/s-celles/giant-chrono";
+
+/** Whether the app runs installed (standalone window) rather than in a browser tab. */
+function installed(): boolean {
+  try {
+    return (
+      matchMedia("(display-mode: standalone)").matches ||
+      (navigator as { standalone?: boolean }).standalone === true
+    );
+  } catch {
+    return false;
+  }
+}
+
+const offlineReady = (): boolean => !!navigator.serviceWorker?.controller;
+const yesNo = (value: boolean): string => t(value ? "about.yes" : "about.no");
+
+function buildDateText(): string {
+  const date = new Date(BUILD.date);
+  return BUILD.date && !Number.isNaN(date.getTime()) ? date.toLocaleString(lang) : "—";
+}
+
+/** Plain-text details to paste into a bug report. */
+function debugReport(): string {
+  return [
+    `GiantChrono ${BUILD.version} (${shortCommit()}${BUILD.date ? `, ${BUILD.date.slice(0, 10)}` : ""})`,
+    location.origin + location.pathname,
+    navigator.userAgent,
+    `${t("about.language")}: ${lang}`,
+    `${t("about.installed")}: ${yesNo(installed())} · ${t("about.offline")}: ${yesNo(offlineReady())}`,
+  ].join("\n");
+}
+
+function syncVersionChrome(): void {
+  btnVersion.textContent = versionLabel();
+  btnVersion.title = t("about.open");
+}
+
+function openAbout(): void {
+  $("about-version").textContent = BUILD.version;
+  const commit = $("about-commit");
+  if (knownCommit()) {
+    const a = document.createElement("a");
+    a.href = `${SOURCE_URL}/commit/${BUILD.commit}`;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = shortCommit();
+    commit.replaceChildren(a);
+  } else {
+    commit.textContent = shortCommit();
+  }
+  $("about-built").textContent = buildDateText();
+  $("about-installed").textContent = yesNo(installed());
+  $("about-offline").textContent = yesNo(offlineReady());
+  aboutStatus.textContent = "";
+  $("btn-copy-details").title = t("about.copyDetailsTitle");
+  aboutDialog.showModal();
+}
+
+btnVersion.addEventListener("click", () => {
+  if (!locked) openAbout();
+});
+$("btn-help-about").addEventListener("click", () => {
+  helpDialog.close();
+  openAbout();
+});
+$("btn-about-close").addEventListener("click", () => aboutDialog.close());
+$("btn-copy-details").addEventListener("click", () => {
+  void navigator.clipboard?.writeText(debugReport()).then(
+    () => (aboutStatus.textContent = t("about.copied")),
+    () => (aboutStatus.textContent = ""),
+  );
+});
+// The logo is generated at build time, so it is absent on the dev server.
+const aboutLogo = $<HTMLImageElement>("about-logo");
+aboutLogo.addEventListener("load", () => (aboutLogo.hidden = false));
+aboutLogo.src = "./icons/icon-192.png";
+
 // ---------- Service worker & update toast (PWA-003, PWA-005) ----------
 
 registerServiceWorker((apply) => {
@@ -758,5 +843,6 @@ applyI18n(); // I18N-001: translate before first paint
 syncViewChrome();
 syncLockChrome();
 syncSoundChrome();
+syncVersionChrome();
 rebuildMultiCards();
 requestAnimationFrame(render);

@@ -65,7 +65,9 @@ The UI is available in **English and French**. The language is detected automati
 
 ## Help and about (HLP)
 
-The **?** button in the top bar opens an offline help dialog summarizing the stopwatch commands, gestures, and keyboard shortcuts (HLP-001), with links to the source code repository and this documentation (HLP-002).
+The **?** button in the top bar opens an offline help dialog summarizing the stopwatch commands, gestures, and keyboard shortcuts (HLP-001); its **About GiantChrono…** button opens the About window, which links to the source code repository and this documentation (HLP-002).
+
+The header shows the version and short commit of the build (e.g. `v0.1.0 (4badca9)`), as Progressive Web Office and QRShare do; clicking it opens the **About** window: version (linked to the changelog), commit (linked to GitHub), build date, license, whether the app is installed and works offline, links to the documentation, source code, changelog and issue tracker, and a **Copy details** button that copies these facts plus the browser's user agent for a bug report (ABT-001). The build date is the commit date, so the same sources still give the same build version (BLD-004).
 
 ## Persistence (PST)
 

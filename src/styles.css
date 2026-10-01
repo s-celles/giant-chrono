@@ -157,6 +157,30 @@ button.primary:hover {
   white-space: nowrap;
 }
 
+/* Version and build, as in Progressive Web Office and QRShare: opens About (ABT-001). */
+.app-version {
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+  background: none;
+  border: none;
+  min-height: 0;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.app-version:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+  .app-version {
+    display: none;
+  }
+}
+
 @media (max-width: 420px) {
   .app-name {
     display: none;
@@ -490,6 +514,68 @@ body.locked #topbar button:not(#btn-lock) {
   padding: 0 0.35rem;
   font-family: ui-monospace, monospace;
   font-size: 0.85em;
+}
+
+.dialog .hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.mono {
+  font-family: ui-monospace, monospace;
+}
+
+/* ---------- About window (ABT-001) ---------- */
+
+.about-dialog {
+  max-width: min(32rem, calc(100vw - 32px));
+}
+
+.about-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.about-name {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.about-logo {
+  flex: none;
+  border-radius: 12px;
+}
+
+.about-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 0;
+}
+
+.about-facts dt {
+  color: var(--muted);
+}
+
+.about-facts dd {
+  margin: 0;
+}
+
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  list-style: none;
+  margin: 16px 0 8px;
+  padding: 0;
+}
+
+.about-dialog .dialog-actions .hint {
+  margin-inline-end: auto;
 }
 
 /* ---------- Settings dialog ---------- */

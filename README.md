@@ -39,6 +39,10 @@ See [docs/](docs/README.md) for the feature guide, architecture notes, and devel
 
 All data stays on your device (`localStorage`). The app performs no network requests for tracking, analytics, or advertising — the only network use is fetching its own static files.
 
+## Author
+
+[Sébastien Celles](https://github.com/s-celles)
+
 ## License
 
 [MIT](LICENSE) — © Sébastien Celles.

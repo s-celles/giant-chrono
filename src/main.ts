@@ -118,6 +118,7 @@ const btnSettings = $<HTMLButtonElement>("btn-settings");
 const btnTheme = $<HTMLButtonElement>("btn-theme");
 const btnHelp = $<HTMLButtonElement>("btn-help");
 const btnFullscreen = $<HTMLButtonElement>("btn-fullscreen");
+const btnExitFullscreen = $<HTMLButtonElement>("btn-exit-fullscreen");
 const helpDialog = $<HTMLDialogElement>("help-dialog");
 const aboutDialog = $<HTMLDialogElement>("about-dialog");
 const btnVersion = $<HTMLButtonElement>("btn-version");
@@ -605,6 +606,9 @@ function syncFullscreenChrome(): void {
   btnFullscreen.setAttribute("aria-pressed", String(active));
   btnFullscreen.setAttribute("aria-label", t(active ? "aria.exitFullscreen" : "aria.fullscreen"));
   btnFullscreen.title = btnFullscreen.getAttribute("aria-label") ?? "";
+  // Full screen shows only the digits and the controls: no header bar.
+  document.documentElement.classList.toggle("fullscreen", active);
+  btnExitFullscreen.title = t("aria.exitFullscreen");
 }
 
 function commandFullscreen(): void {
@@ -612,6 +616,7 @@ function commandFullscreen(): void {
 }
 
 btnFullscreen.addEventListener("click", commandFullscreen);
+btnExitFullscreen.addEventListener("click", commandFullscreen);
 // Also fires when the browser leaves full screen on its own (Escape, back gesture).
 document.addEventListener("fullscreenchange", syncFullscreenChrome);
 document.addEventListener("webkitfullscreenchange", syncFullscreenChrome);

@@ -389,6 +389,37 @@ button.primary:hover {
   font-size: 1rem;
 }
 
+/* ---------- Full screen (DSP-012) ---------- */
+
+/* Only the digits and the controls: the header bar is hidden, and a discreet
+   corner button (plus F / Escape) leaves full screen. */
+:root.fullscreen #topbar {
+  display: none;
+}
+
+:root.fullscreen #app {
+  padding-top: env(safe-area-inset-top);
+}
+
+.fullscreen-exit {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 20;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+}
+
+:root.fullscreen .fullscreen-exit {
+  display: flex;
+}
+
+.fullscreen-exit:hover,
+.fullscreen-exit:focus-visible {
+  opacity: 1;
+}
+
 /* ---------- Lock mode (LCK-002) ---------- */
 
 #lock-indicator {

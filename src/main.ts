@@ -3,6 +3,7 @@
 import { BUILD, knownCommit, shortCommit, versionLabel } from "./core/build-info";
 import { countdownStatus } from "./core/countdown";
 import { qrDataUrl } from "./core/qr";
+import { fullscreenSupported, isFullscreen, toggleFullscreen } from "./core/fullscreen";
 import { defaultHour12, formatClock, formatElapsed, lapRows, stackTime } from "./core/format";
 import { MESSAGES, resolveLang, type Lang, type MsgKey } from "./core/i18n";
 import {
@@ -116,6 +117,7 @@ const btnSound = $<HTMLButtonElement>("btn-sound");
 const btnSettings = $<HTMLButtonElement>("btn-settings");
 const btnTheme = $<HTMLButtonElement>("btn-theme");
 const btnHelp = $<HTMLButtonElement>("btn-help");
+const btnFullscreen = $<HTMLButtonElement>("btn-fullscreen");
 const helpDialog = $<HTMLDialogElement>("help-dialog");
 const aboutDialog = $<HTMLDialogElement>("about-dialog");
 const btnVersion = $<HTMLButtonElement>("btn-version");
@@ -595,6 +597,25 @@ btnTheme.addEventListener("click", () => {
   persistSettings();
   applyTheme();
 });
+// ---------- Full screen (DSP-012) ----------
+
+function syncFullscreenChrome(): void {
+  btnFullscreen.hidden = !fullscreenSupported(document);
+  const active = isFullscreen(document);
+  btnFullscreen.setAttribute("aria-pressed", String(active));
+  btnFullscreen.setAttribute("aria-label", t(active ? "aria.exitFullscreen" : "aria.fullscreen"));
+  btnFullscreen.title = btnFullscreen.getAttribute("aria-label") ?? "";
+}
+
+function commandFullscreen(): void {
+  if (!locked && fullscreenSupported(document)) void toggleFullscreen(document);
+}
+
+btnFullscreen.addEventListener("click", commandFullscreen);
+// Also fires when the browser leaves full screen on its own (Escape, back gesture).
+document.addEventListener("fullscreenchange", syncFullscreenChrome);
+document.addEventListener("webkitfullscreenchange", syncFullscreenChrome);
+
 btnHelp.addEventListener("click", () => {
   if (locked) return;
   helpDialog.showModal(); // HLP-001
@@ -634,6 +655,9 @@ window.addEventListener("keydown", (e) => {
     case "ArrowUp":
     case "ArrowDown":
       if (!locked) switchView();
+      break;
+    case "KeyF":
+      commandFullscreen();
       break;
   }
 });
@@ -729,6 +753,7 @@ function refreshLanguage(): void {
   syncViewChrome();
   syncLockChrome();
   syncThemeChrome();
+  syncFullscreenChrome();
   syncVersionChrome();
   if (settings.multiEnabled) rebuildMultiCards();
 }
@@ -864,6 +889,7 @@ applyI18n(); // I18N-001: translate before first paint
 syncViewChrome();
 syncLockChrome();
 syncSoundChrome();
+syncFullscreenChrome();
 syncVersionChrome();
 rebuildMultiCards();
 requestAnimationFrame(render);

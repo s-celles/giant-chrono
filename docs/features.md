@@ -15,6 +15,7 @@ The active value — stopwatch or clock — fills the available screen area; dig
 - Font: monospace, sans-serif, or serif — local system font stacks, no network request (DSP-004)
 - Relative size (20–100 %) and letter spacing (DSP-005)
 - Stopwatch format: hours automatic/always/never, precision seconds/tenths/hundredths (DSP-006)
+- **Full screen** with the ⛶ header button or the **F** key: hides the browser chrome so the digits use the whole screen; the same button, **F** or Escape leaves it. Uses the Fullscreen API (with the WebKit fallback for Safari); where the browser does not offer it (iPhone Safari), the button is hidden — install the app to the home screen for a full-screen display (DSP-012)
 - Digit layout: **automatic** (stacked in portrait, single line in landscape), **single line**, or **stacked** — each hours/minutes/seconds group on its own line, with the stopwatch fraction shown small in the bottom-right corner, so digits stay as large as possible in any orientation (DSP-009)
 
 All theme settings persist across sessions (DSP-007); missing or invalid stored values fall back to readable defaults (DSP-008).
@@ -45,7 +46,7 @@ Format changes apply immediately and persist (FMT-005).
 - Large on-screen buttons: Reset, Start/Pause, Lap (CMD-001).
 - A tap on the display (outside buttons) triggers a configurable secondary command — Lap by default, Start/Pause, or disabled (CMD-002, CMD-003).
 - Hardware volume keys are not exposed by web browsers (CTR-002); all functions remain fully available through the touch controls (CMD-005).
-- Keyboard: **Space** start/pause, **L** lap, **R** reset, **V**/**↑**/**↓** switch view (NFR-004).
+- Keyboard: **Space** start/pause, **L** lap, **R** reset, **V**/**↑**/**↓** switch view, **F** full screen (NFR-004, DSP-012).
 
 ## Lock mode (LCK)
 

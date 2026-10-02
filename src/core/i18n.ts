@@ -26,6 +26,8 @@ const en = {
   "aria.help": "Help",
   "aria.about": "About GiantChrono",
   "aria.settings": "Open settings",
+  "aria.fullscreen": "Full screen",
+  "aria.exitFullscreen": "Exit full screen",
   "aria.theme": "Theme:",
   "aria.stopwatch": "Stopwatch",
   "aria.clock": "Clock",
@@ -152,7 +154,7 @@ const en = {
   "help.v2": "Tap 🔓 to lock the controls against accidental touches; hold anywhere for one second to unlock.",
   "help.v3": "Digits stack one group per line in portrait; force a layout in Settings.",
   "help.kb":
-    "<kbd>Space</kbd> start/pause · <kbd>L</kbd> lap · <kbd>R</kbd> reset · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> switch view",
+    "<kbd>Space</kbd> start/pause · <kbd>L</kbd> lap · <kbd>R</kbd> reset · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> switch view · <kbd>F</kbd> full screen",
   "help.docs": "Full documentation",
 } as const;
 
@@ -168,6 +170,8 @@ const fr: Record<MsgKey, string> = {
   "aria.help": "Aide",
   "aria.about": "À propos de GiantChrono",
   "aria.settings": "Ouvrir les réglages",
+  "aria.fullscreen": "Plein écran",
+  "aria.exitFullscreen": "Quitter le plein écran",
   "aria.theme": "Thème :",
   "aria.stopwatch": "Chronomètre",
   "aria.clock": "Horloge",
@@ -289,7 +293,7 @@ const fr: Record<MsgKey, string> = {
   "help.v2": "Touchez 🔓 pour verrouiller contre les commandes accidentelles ; maintenez une seconde n'importe où pour déverrouiller.",
   "help.v3": "Les chiffres s'empilent un groupe par ligne en portrait ; forcez une disposition dans les réglages.",
   "help.kb":
-    "<kbd>Espace</kbd> départ/pause · <kbd>L</kbd> tour · <kbd>R</kbd> zéro · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> changer de vue",
+    "<kbd>Espace</kbd> départ/pause · <kbd>L</kbd> tour · <kbd>R</kbd> zéro · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> changer de vue · <kbd>F</kbd> plein écran",
   "help.docs": "Documentation complète",
 };
 

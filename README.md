@@ -10,7 +10,8 @@ GiantChrono reimplements the feature set of [Giant Stopwatch](https://github.com
 - **Delayed start** — configurable countdown with audio "3… 2… 1…" cues (generated locally with the Web Audio API)
 - **Giant clock** — local time, optional seconds, **12 h / 24 h** format (automatic from your locale by default)
 - **Themes** — digit color, background color, font, relative size, letter spacing, stopwatch precision
-- **Gestures & commands** — vertical swipe (or button) to switch stopwatch/clock, tap-on-display as a configurable command, keyboard shortcuts (Space, L, R, arrows)
+- **Gestures & commands** — vertical swipe (or button) to switch stopwatch/clock, tap-on-display as a configurable command, keyboard shortcuts (Space, L, R, F, arrows)
+- **Full screen** — ⛶ button or F key to hide the browser chrome (where the browser supports it)
 - **Lock mode** — ignore accidental touches (splash-proof); hold for one second to unlock
 - **Multiple stopwatches** — optional independent stopwatches
 - **Screen wake lock** — keeps the display on while timing (where supported)

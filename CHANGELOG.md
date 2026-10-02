@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Visual style shared with Progressive Web Office and QRShare: same light/dark palette, header bar with a **GC** badge, buttons, dialogs and focus ring; the default digit/background colors follow that palette (UI-001)
 - Version and short commit in the header (e.g. `v0.1.0 (4badca9)`), opening an **About** window with version, commit, build date, license, install/offline status, documentation/source/changelog/issue links and a **Copy details** button for bug reports — as in Progressive Web Office and QRShare (ABT-001)
 - QR code of the app address in the About window, enlarged full screen on click, generated offline with lean-qr as in Progressive Web Office and QRShare (ABT-002)
+- Separate header buttons for **Help** (**?**, documentation only) and **About** (**ℹ**), as in QRShare (HLP-001, HLP-002, ABT-001)
 - French translation of the UI, auto-detected from the browser language with English fallback, plus a **Language** setting (Automatic / English / Français) to force it (I18N-001…003)
 
 ## [0.1.0] - 2026-07-02

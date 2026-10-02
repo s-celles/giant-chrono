@@ -65,9 +65,9 @@ The UI is available in **English and French**. The language is detected automati
 
 ## Help and about (HLP)
 
-The **?** button in the top bar opens an offline help dialog summarizing the stopwatch commands, gestures, and keyboard shortcuts (HLP-001); its **About GiantChrono…** button opens the About window, which links to the source code repository and this documentation (HLP-002).
+Two separate header buttons, as in QRShare: **?** opens the offline **Help** (documentation) dialog summarizing the stopwatch commands, gestures, and keyboard shortcuts, with a link to this full documentation (HLP-001, HLP-002); **ℹ** opens the **About** window, which links to the source code repository (HLP-002, ABT-001).
 
-The header shows the version and short commit of the build (e.g. `v0.1.0 (4badca9)`), as Progressive Web Office and QRShare do; clicking it opens the **About** window: version (linked to the changelog), commit (linked to GitHub), build date, license, whether the app is installed and works offline, links to the documentation, source code, changelog and issue tracker, and a **Copy details** button that copies these facts plus the browser's user agent for a bug report (ABT-001). The build date is the commit date, so the same sources still give the same build version (BLD-004).
+The header shows the version and short commit of the build (e.g. `v0.1.0 (4badca9)`), as Progressive Web Office and QRShare do; clicking it also opens the **About** window: version (linked to the changelog), commit (linked to GitHub), build date, license, whether the app is installed and works offline, links to the documentation, source code, changelog and issue tracker, and a **Copy details** button that copies these facts plus the browser's user agent for a bug report (ABT-001). The build date is the commit date, so the same sources still give the same build version (BLD-004).
 
 The About window also shows a **QR code of the app's address**, to open GiantChrono on another device; clicking it shows the code full screen, to scan from a distance (click, Escape or **Close** to leave). It is generated on the device with [lean-qr](https://github.com/davidje13/lean-qr), the same library as Progressive Web Office and QRShare, so it works offline (ABT-002).
 

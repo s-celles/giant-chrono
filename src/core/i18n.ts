@@ -23,7 +23,8 @@ const en = {
   "aria.toggleSound": "Toggle sound",
   "aria.lock": "Lock the screen controls",
   "aria.lockLocked": "Locked — hold to unlock",
-  "aria.help": "Help and about",
+  "aria.help": "Help",
+  "aria.about": "About GiantChrono",
   "aria.settings": "Open settings",
   "aria.theme": "Theme:",
   "aria.stopwatch": "Stopwatch",
@@ -112,7 +113,6 @@ const en = {
   // About window (ABT-001)
   "about.title": "About",
   "about.open": "Version and build — open the About window",
-  "about.openFull": "About GiantChrono…",
   "about.tagline": "Giant stopwatch and clock, fully offline.",
   "about.version": "Version",
   "about.commit": "Commit",
@@ -141,7 +141,7 @@ const en = {
   "help.stopwatch": "Stopwatch",
   "help.views": "Views and gestures",
   "help.keyboard": "Keyboard",
-  "help.about": "About",
+  "help.title": "Help",
   "help.sw1":
     "<strong>Start / Pause</strong> toggles counting; <strong>Lap</strong> records a split; <strong>Reset</strong> returns to zero and clears laps.",
   "help.sw2": "A tap on the display triggers the secondary command chosen in Settings (Lap by default).",
@@ -152,7 +152,7 @@ const en = {
   "help.v3": "Digits stack one group per line in portrait; force a layout in Settings.",
   "help.kb":
     "<kbd>Space</kbd> start/pause · <kbd>L</kbd> lap · <kbd>R</kbd> reset · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> switch view",
-  "help.about1": "Free, open source, offline-first. No ads, no tracking: all data stays on your device.",
+  "help.docs": "Full documentation",
 } as const;
 
 export type MsgKey = keyof typeof en;
@@ -164,7 +164,8 @@ const fr: Record<MsgKey, string> = {
   "aria.toggleSound": "Activer ou couper le son",
   "aria.lock": "Verrouiller les commandes",
   "aria.lockLocked": "Verrouillé — maintenir pour déverrouiller",
-  "aria.help": "Aide et à-propos",
+  "aria.help": "Aide",
+  "aria.about": "À propos de GiantChrono",
   "aria.settings": "Ouvrir les réglages",
   "aria.theme": "Thème :",
   "aria.stopwatch": "Chronomètre",
@@ -249,7 +250,6 @@ const fr: Record<MsgKey, string> = {
   // Fenêtre À propos (ABT-001)
   "about.title": "À propos",
   "about.open": "Version et build — ouvrir la fenêtre À propos",
-  "about.openFull": "À propos de GiantChrono…",
   "about.tagline": "Chronomètre et horloge géants, entièrement hors ligne.",
   "about.version": "Version",
   "about.commit": "Commit",
@@ -277,7 +277,7 @@ const fr: Record<MsgKey, string> = {
   "help.stopwatch": "Chronomètre",
   "help.views": "Vues et gestes",
   "help.keyboard": "Clavier",
-  "help.about": "À propos",
+  "help.title": "Aide",
   "help.sw1":
     "<strong>Départ / Pause</strong> démarre ou fige le comptage ; <strong>Tour</strong> enregistre un intermédiaire ; <strong>Zéro</strong> remet à zéro et efface les tours.",
   "help.sw2": "Un toucher sur l'écran déclenche la commande secondaire choisie dans les réglages (Tour par défaut).",
@@ -288,8 +288,7 @@ const fr: Record<MsgKey, string> = {
   "help.v3": "Les chiffres s'empilent un groupe par ligne en portrait ; forcez une disposition dans les réglages.",
   "help.kb":
     "<kbd>Espace</kbd> départ/pause · <kbd>L</kbd> tour · <kbd>R</kbd> zéro · <kbd>V</kbd>/<kbd>↑</kbd>/<kbd>↓</kbd> changer de vue",
-  "help.about1":
-    "Libre, open source, 100 % hors-ligne. Sans publicité ni pistage : toutes les données restent sur votre appareil.",
+  "help.docs": "Documentation complète",
 };
 
 export const MESSAGES: Record<Lang, Record<MsgKey, string>> = { en, fr };

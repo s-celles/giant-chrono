@@ -23,6 +23,7 @@
           <button id="btn-lock" class="icon-btn" type="button" data-i18n-aria="aria.lock">🔓</button>
           <button id="btn-theme" class="icon-btn theme-toggle" type="button" aria-label="Theme">◐</button>
           <button id="btn-help" class="icon-btn" type="button" data-i18n-aria="aria.help">?</button>
+          <button id="btn-about" class="icon-btn" type="button" data-i18n-aria="aria.about">&#x2139;</button>
           <button id="btn-settings" class="icon-btn" type="button" data-i18n-aria="aria.settings">⚙</button>
         </div>
       </header>
@@ -67,9 +68,9 @@
         <button id="btn-update" type="button" data-i18n="update.reload">Reload</button>
       </div>
 
-      <dialog id="help-dialog" class="dialog" data-i18n-aria="aria.help" aria-label="Help and about">
+      <dialog id="help-dialog" class="dialog" data-i18n-aria="aria.help" aria-label="Help">
         <div class="help-content">
-          <h2>GiantChrono</h2>
+          <h2 data-i18n="help.title">Help</h2>
 
           <section>
             <h3 data-i18n="help.stopwatch">Stopwatch</h3>
@@ -96,14 +97,12 @@
             </ul>
           </section>
 
-          <section>
-            <h3 data-i18n="help.about">About</h3>
-            <p data-i18n="help.about1">Free, open source, offline-first. No ads, no tracking: all data stays on your device.</p>
-          </section>
+          <p>
+            <a href="https://github.com/s-celles/giant-chrono/tree/main/docs" target="_blank" rel="noopener" data-i18n="help.docs">Full documentation</a>
+          </p>
 
           <form method="dialog">
             <menu class="dialog-actions">
-              <button id="btn-help-about" type="button" data-i18n="about.openFull">About GiantChrono…</button>
               <button value="close" class="primary" data-i18n="st.close">Close</button>
             </menu>
           </form>

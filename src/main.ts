@@ -823,9 +823,8 @@ function openAbout(): void {
 btnVersion.addEventListener("click", () => {
   if (!locked) openAbout();
 });
-$("btn-help-about").addEventListener("click", () => {
-  helpDialog.close();
-  openAbout();
+$("btn-about").addEventListener("click", () => {
+  if (!locked) openAbout();
 });
 $("btn-about-close").addEventListener("click", () => aboutDialog.close());
 $("btn-qr-zoom").addEventListener("click", () => {
